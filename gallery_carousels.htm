@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Gallery Carousels + Scrollspy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body{position:relative}
+    .thumb{height:160px;object-fit:cover}
+    .sidebar{top:6rem}
+  </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#galleryNav" data-bs-offset="80" tabindex="0">
+  <header class="bg-dark text-white py-2"><div class="container">EventReality Gallery</div></header>
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <nav id="galleryNav" class="col-md-3 d-none d-md-block sidebar">
+        <div class="list-group">
+          <a class="list-group-item list-group-item-action" href="#cat1">Evening Wear</a>
+          <a class="list-group-item list-group-item-action" href="#cat2">Street Style</a>
+          <a class="list-group-item list-group-item-action" href="#cat3">Accessories</a>
+        </div>
+      </nav>
+
+      <main class="col-md-9">
+        <section id="cat1" class="mb-5">
+          <h3>Evening Wear</h3>
+          <div id="c1" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active"><img src="https://picsum.photos/900/400?random=31" class="d-block w-100" alt="e1"></div>
+              <div class="carousel-item"><img src="https://picsum.photos/900/400?random=32" class="d-block w-100" alt="e2"></div>
+              <div class="carousel-item"><img src="https://picsum.photos/900/400?random=33" class="d-block w-100" alt="e3"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="cat2" class="mb-5">
+          <h3>Street Style</h3>
+          <div id="c2" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active"><img src="https://picsum.photos/900/400?random=34" class="d-block w-100" alt="s1"></div>
+              <div class="carousel-item"><img src="https://picsum.photos/900/400?random=35" class="d-block w-100" alt="s2"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="cat3" class="mb-5">
+          <h3>Accessories</h3>
+          <div class="row g-3">
+            <div class="col-6 col-md-4"><img src="https://picsum.photos/400/300?random=41" class="img-fluid thumb rounded" alt="a1"></div>
+            <div class="col-6 col-md-4"><img src="https://picsum.photos/400/300?random=42" class="img-fluid thumb rounded" alt="a2"></div>
+            <div class="col-6 col-md-4"><img src="https://picsum.photos/400/300?random=43" class="img-fluid thumb rounded" alt="a3"></div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

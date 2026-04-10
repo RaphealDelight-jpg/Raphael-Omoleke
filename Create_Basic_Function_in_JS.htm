@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Activity 1 — Create basic Function in JS</title>
+  <style>
+    body{font-family:Segoe UI,Arial,Helvetica,sans-serif;padding:20px}
+    .card{max-width:720px;border:1px solid #e6e6e6;padding:16px;border-radius:6px}
+    .submit-btn{color:#d9534f;border:1px solid #f2a19a;background:#fff;padding:8px 12px;border-radius:4px}
+    pre{background:#f8f8f8;padding:10px;border-radius:4px;overflow:auto}
+    label{display:block;margin:10px 0}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Activity 1</h2>
+    <h3>Create basic Function in JS</h3>
+    <p>Write a basic function that accepts a name and returns a greeting. Try it below.</p>
+
+    <pre id="code">function greet(name) {
+  return 'Hello ' + name + '!';
+}</pre>
+
+    <label>Name: <input id="nameInput" type="text" value="Student"></label>
+    <button id="runBtn">Run</button>
+    <button class="submit-btn" disabled>Submit link</button>
+
+    <p>Output: <strong id="output">—</strong></p>
+
+    <script>
+      function greet(name) {
+        return 'Hello ' + name + '!';
+      }
+
+      document.getElementById('runBtn').addEventListener('click', function () {
+        var name = document.getElementById('nameInput').value;
+        document.getElementById('output').textContent = greet(name);
+      });
+    </script>
+  </div>
+</body>
+</html>

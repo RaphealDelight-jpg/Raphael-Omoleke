@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Random Colours</title>
+    <link rel="stylesheet" href="Change random colours.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Random Colour Generator & Mixer</h1>
+        <div class="color-boxes">
+            <div class="color-box" id="color1"></div>
+            <div class="color-box" id="color2"></div>
+            <div class="color-box" id="color3"></div>
+        </div>
+        <div class="button-group">
+            <button id="generateBtn" class="btn">Generate Colours</button>
+            <button id="mixBtn" class="btn btn-mix">Mix Colours</button>
+        </div>
+        <p id="colorCode" class="color-code">#FFFFFF</p>
+    </div>
+    <script>
+        const generateBtn = document.getElementById('generateBtn');
+        const mixBtn = document.getElementById('mixBtn');
+        const colorCode = document.getElementById('colorCode');
+        const color1Box = document.getElementById('color1');
+        const color2Box = document.getElementById('color2');
+        const color3Box = document.getElementById('color3');
+        const colors = {};
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        function mixColors(color1, color2, color3) {
+            const rgb1 = hexToRgb(color1);
+            const rgb2 = hexToRgb(color2);
+            const rgb3 = hexToRgb(color3);
+
+            const mixedR = Math.floor((rgb1.r + rgb2.r + rgb3.r) / 3);
+            const mixedG = Math.floor((rgb1.g + rgb2.g + rgb3.g) / 3);
+            const mixedB = Math.floor((rgb1.b + rgb2.b + rgb3.b) / 3);
+
+            return rgbToHex(mixedR, mixedG, mixedB);
+        }
+
+        function generateColors() {
+            colors.color1 = getRandomColor();
+            colors.color2 = getRandomColor();
+            colors.color3 = getRandomColor();
+
+            color1Box.style.backgroundColor = colors.color1;
+            color2Box.style.backgroundColor = colors.color2;
+            color3Box.style.backgroundColor = colors.color3;
+
+            colorCode.textContent = `${colors.color1} + ${colors.color2} + ${colors.color3}`;
+        }
+
+        generateBtn.addEventListener('click', generateColors);
+
+        mixBtn.addEventListener('click', () => {
+            if (colors.color1 && colors.color2 && colors.color3) {
+                const mixedColor = mixColors(colors.color1, colors.color2, colors.color3);
+                document.body.style.backgroundColor = mixedColor;
+                colorCode.textContent = `Mixed: ${mixedColor}`;
+            }
+        });
+
+        // Generate initial colors on page load
+        window.addEventListener('load', generateColors);
+    </script>
+</body>
+</html>

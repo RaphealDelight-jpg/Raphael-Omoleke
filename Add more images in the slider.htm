@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .slider-container {
+            width: 600px;
+            max-width: 90vw;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ddd;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #333;
+        }
+
+        button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #0052a3;
+        }
+
+        .dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #999;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .dot.active {
+            background: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider-container">
+        <div class="slider-wrapper">
+            <div class="slider-track" id="sliderTrack">
+                <div class="slide"><img src="AyaanKhan.png" alt="Slide 1"></div>
+                <div class="slide"><img src="ChatGPT Image Feb 14, 2026, 04_27_07 PM.png" alt="Slide 2"></div>
+                <div class="slide"><img src="ChatGPT Image Feb 14, 2026, 10_01_28 PM.png" alt="Slide 3"></div>
+                <div class="slide"><img src="ChatGPT Image Feb 5, 2026, 09_52_29 PM (1).png" alt="Slide 4"></div>
+                <div class="slide"><img src="ChatGPT Image Oct 31, 2025, 05_57_29 PM.png" alt="Slide 5"></div>
+                 <div class="slide"><img src="image_logo.png" alt="Slide 6"></div>
+                  <div class="slide"><img src="image_prk.png" alt="Slide 7"></div>
+                   <div class="slide"><img src="Ball.JPG" alt="Slide 8"></div>
+                    <div class="slide"><img src="BootstrapLogo.png" alt="Slide 9"></div>
+                     <div class="slide"><img src="CALL STACK.png" alt="Slide 10"></div>
+                      <div class="slide"><img src="dice1-removebg-preview.png" alt="Slide 11"></div>
+                       <div class="slide"><img src="dice2-removebg-preview.png" alt="Slide 12"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="prevBtn">← Previous</button>
+            <div class="dots" id="dotsContainer"></div>
+            <button id="nextBtn">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const sliderTrack = document.getElementById('sliderTrack');
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dotsContainer');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Create dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+
+        function updateSlider() {
+            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+        }
+
+        prevBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlider();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<link rel="stylesheet" href="styles.css">
+<body>
+    <h1>Async/Await in JavaScript</h1>
+    <p>Async/await is a syntactic sugar for handling asynchronous operations in JavaScript, making it easier to write and read asynchronous code.
+    It is built on top of Promises and allows you to write asynchronous code that looks and behaves like synchronous code.</p>
+    <p id="result"></p>
+    <script>
+       function mydisplay() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve("Hello, Async/Await!");
+                }, 2000);
+            });
+        }
+
+        async function asyncFunction() {
+            const message = await mydisplay();
+            document.getElementById("result").innerHTML = message;
+        }
+
+        asyncFunction();
+        function someOtherFunction() {
+            document.getElementById("result").innerHTML += "<br>This runs while waiting for asyncFunction to complete.";
+        }
+        someOtherFunction();
+        let mypromise= new Promise((resolve, reject) => {
+            let success = true; // Change this to false to test the reject case
+            if (success) {
+                resolve("Promise resolved successfully!");
+            } else {
+                reject("Promise rejected!");
+            }
+        })
+        //consuming code =  must wait for the promise to be resolved or rejected
+        async function consumePromise() {
+            try {
+                const message = await mypromise;
+                document.getElementById("result").innerHTML += "<br>" + message;
+            } catch (error) {
+                document.getElementById("result").innerHTML += "<br>" + error;
+            }
+        }
+        consumePromise();
+    </script>
+</body>
+</html>

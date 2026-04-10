@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Class Inheritance Example</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h3>JavaScript Class Inheritance Example</h3>
+    <script>
+        document.write("<h4>Base Class Example</h4>");
+        //create a base class
+        class Vehicle {
+            constructor(brand, model) {
+                this.brand = brand;
+                this.model = model;
+            }
+            displayInfo() {
+                return `Vehicle: ${this.brand} ${this.model}`;
+            }
+        }
+        //create an object of the base class
+        const myVehicle = new Vehicle("Honda", "Civic");
+        document.write(myVehicle.displayInfo());
+        //create a derived class
+        class Motorcycle extends Vehicle {
+            constructor(brand, model, type) {
+                super(brand, model);
+                this.type = type;
+            }
+            displayInfo() {
+                return `Motorcycle: ${this.brand} ${this.model}, Type: ${this.type}`;
+            }
+        }
+        //create an object of the derived class
+        const myMotorcycle = new Motorcycle("Yamaha", "MT-07", "Sport");
+        document.write("<br>" + myMotorcycle.displayInfo());
+    </script>
+</body>
+</html>

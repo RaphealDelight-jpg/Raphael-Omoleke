@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Class Example</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h3>JavaScript Class Example</h3>
+    <script>
+        //create a class
+        class Person {
+            constructor(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+            introduce() {
+                return `Hello, my name is ${this.name} and I am ${this.age} years old.`;
+            }
+        }
+        //create an object of the class
+        const person1 = new Person("Alice", 25);
+        document.write(person1.introduce());
+    </script>
+</body>
+</html>

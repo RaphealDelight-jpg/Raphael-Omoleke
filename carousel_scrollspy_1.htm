@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Carousel + Scrollspy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { position: relative; }
+    .section { padding: 5rem 1rem; }
+    #navMenu { top: 6rem; }
+  </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navMenu" data-bs-offset="80" tabindex="0">
+  <header class="bg-dark text-white py-3">
+    <div class="container">
+      <h1 class="h4 mb-0">EventReality — Carousel & Scrollspy (1)</h1>
+    </div>
+  </header>
+
+  <!-- Top carousel -->
+  <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://picsum.photos/1200/450?random=11" class="d-block w-100" alt="slide1">
+        <div class="carousel-caption d-none d-md-block"><h5>Event Reality Fashion</h5><p>Seasonal collection preview</p></div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://picsum.photos/1200/450?random=12" class="d-block w-100" alt="slide2">
+        <div class="carousel-caption d-none d-md-block"><h5>Runway Highlight</h5><p>Exclusive looks</p></div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://picsum.photos/1200/450?random=13" class="d-block w-100" alt="slide3">
+        <div class="carousel-caption d-none d-md-block"><h5>Studio Shots</h5><p>Behind the scenes</p></div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <div class="container-fluid mt-4">
+    <div class="row">
+      <nav id="navMenu" class="col-md-3 d-none d-md-block position-sticky">
+        <ul class="nav flex-column nav-pills">
+          <li class="nav-item"><a class="nav-link" href="#section1">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#section2">Collection</a></li>
+          <li class="nav-item"><a class="nav-link" href="#section3">Contact</a></li>
+        </ul>
+      </nav>
+
+      <main class="col-md-9">
+        <section id="section1" class="section">
+          <h2>About EventReality Fashion</h2>
+          <p>EventReality brings couture to life — curated fashion and event design.</p>
+        </section>
+
+        <section id="section2" class="section">
+          <h2>Current Collection</h2>
+          <p>Explore studio shots and runway pieces showcased above in our carousel.</p>
+        </section>
+
+        <section id="section3" class="section">
+          <h2>Contact & Booking</h2>
+          <p>Reach out to book a show or collaboration.</p>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Activity 3 — Expression function</title>
+  <style>
+    body{font-family:Segoe UI,Arial,Helvetica,sans-serif;padding:20px}
+    .card{max-width:720px;border:1px solid #e6e6e6;padding:16px;border-radius:6px}
+    .submit-btn{color:#d9534f;border:1px solid #f2a19a;background:#fff;padding:8px 12px;border-radius:4px}
+    pre{background:#f8f8f8;padding:10px;border-radius:4px;overflow:auto}
+    label{display:block;margin:10px 0}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Activity 3</h2>
+    <h3>Expression function</h3>
+    <p>Demonstrate a function expression assigned to a variable.</p>
+
+    <pre>var multiply = function(a, b) {
+  return a * b;
+};</pre>
+
+    <label>Number 1: <input id="n1" type="number" value="4"></label>
+    <label>Number 2: <input id="n2" type="number" value="5"></label>
+    <div>
+      <button id="run">Run</button>
+      <button class="submit-btn" disabled>Submit link</button>
+    </div>
+    <p>Result: <strong id="res">—</strong></p>
+
+    <script>
+      var multiply = function(a, b) {
+        return a * b;
+      };
+      document.getElementById('run').addEventListener('click', function () {
+        var a = parseFloat(document.getElementById('n1').value);
+        var b = parseFloat(document.getElementById('n2').value);
+        if (Number.isNaN(a) || Number.isNaN(b)) {
+          document.getElementById('res').textContent = 'Enter valid numbers';
+          return;
+        }
+        document.getElementById('res').textContent = multiply(a, b);
+      });
+    </script>
+  </div>
+</body>
+</html>

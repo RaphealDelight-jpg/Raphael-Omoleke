@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Callback Functions in JavaScript</title>
+</head>
+<link rel="stylesheet" href="styles.css">
+<body>
+    <h1>Callback Functions in JavaScript</h1>
+    <p>A callback function is a function that is passed as an argument to another function and  is executed after some operation has been completed.
+    Callbacks are commonly used in asynchronous programming to handle operations that take time to complete, such as fetching data from a server or reading files.</p>
+    <p id="result"></p>
+    <script>
+        function fetchData(callback) {
+            setTimeout(() => {
+                const data = "Data fetched from server";
+                callback(data);
+            }, 2000);
+        }
+
+        function displayData(data) {
+            document.getElementById("result").innerHTML = data;
+        }
+
+        fetchData(displayData);
+    </script>
+</body>
+</html>

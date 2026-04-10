@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{font-family:Segoe UI, Roboto, Arial, sans-serif;padding:1rem}
+        button{padding:0.5rem 1rem;font-size:1rem;cursor:pointer}
+        img{width:100px;height:100px;margin:0.5rem}
+        p{font-size:1.2rem}
+        color{font-weight:bold;font-size:1.2rem}
+    </style>
+</head>
+<body>
+    <button id="roll-dice">Roll Dice</button>
+    <p id="dice result"></p>
+    <p id="total result"></p>
+    <p id="game result"></p>
+    <img id="dice1 image" src="dice1-removebg-preview.png" alt="Dice 1">
+    <img id="dice2 image" src="dice2-removebg-preview.png" alt="Dice 2">
+    <script src="dicegame.js"></script>
+       <h1>Dice Roller Game</h1>
+       <p>Click the "Roll Dice" button to roll two dice. 
+        If the total is 7 or 11, you win! Otherwise, you lose. Good luck!</p>
+       <script>
+        const rollDiceButton = document.getElementById('roll-dice');
+        const diceResult = document.getElementById('dice result');
+        const totalResult = document.getElementById('total result');
+        const gameResult = document.getElementById('game result');
+        const dice1Image = document.getElementById('dice1 image');
+        const dice2Image = document.getElementById('dice2 image');
+
+        rollDiceButton.addEventListener('click', () => {
+            const dice1 = Math.floor(Math.random() * 6) + 1;
+            const dice2 = Math.floor(Math.random() * 6) + 1;
+            const total = dice1 + dice2;
+
+            diceResult.textContent = `You rolled a ${dice1} and a ${dice2}.`;
+            totalResult.textContent = `Total: ${total}`;
+
+            dice1Image.src = `images/dice${dice1}.png`;
+            dice2Image.src = `images/dice${dice2}.png`;
+
+            if (total === 7 || total === 11) {
+                gameResult.textContent = 'Congratulations! You win!';
+            } else {
+                gameResult.textContent = 'Sorry, you lose. Try again!';
+            }
+        });
+         </script>
+</body>
+</html>

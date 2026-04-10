@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Area Calculator</h1>
+    <form id="areaForm" novalidate>
+        <div>
+            <label for="length">Length: <input id="length" type="number" required></label>
+            <div id="lengthError" class="error"></div>
+        </div>
+        <div>
+            <label for="width">Width: <input id="width" type="number" required></label>
+            <div id="widthError" class="error"></div>
+        </div>
+        <button type="submit">Calculate Area</button>
+    </form>
+    <div id="areaResult"></div>
+    <script>
+        const length = document.getElementById('length');
+        const width = document.getElementById('width');
+        const lengthError = document.getElementById('lengthError');
+        const widthError = document.getElementById('widthError');
+        const areaResult = document.getElementById('areaResult');
+        function validateInput(input) {
+            if (input.value === '') {
+                return 'This field is required';
+            }
+            return '';
+        }
+        length.addEventListener('input', () => {
+            lengthError.textContent = validateInput(length);
+        });
+        width.addEventListener('input', () => {
+            widthError.textContent = validateInput(width);
+        });
+        document.getElementById('areaForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+            lengthError.textContent = validateInput(length);
+            widthError.textContent = validateInput(width);
+            if (lengthError.textContent !== '') isValid = false;
+            if (widthError.textContent !== '') isValid = false;
+            if (isValid) {
+                const area = parseFloat(length.value) * parseFloat(width.value);
+                areaResult.textContent = `Area: ${area}`;
+            } else {
+                areaResult.textContent = '';
+            }
+        });
+        </SCRIPT>
+</body>
+</html>

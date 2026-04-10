@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Web Projects Portfolio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
+        
+        /* Navbar */
+        nav { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+        nav ul { list-style: none; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+        nav a { color: white; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        nav a:hover { color: #ffd700; transform: scale(1.1); }
+        
+        /* Hero Section */
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4rem 2rem; text-align: center; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.1rem; margin-bottom: 1.5rem; }
+        
+        /* Container */
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        
+        /* Projects Grid */
+        .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 2rem 0; }
+        .project-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s; }
+        .project-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3); }
+        .project-img { width: 100%; height: 200px; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; }
+        .project-info { padding: 1.5rem; }
+        .project-info h3 { margin-bottom: 0.5rem; color: #667eea; }
+        .project-info p { font-size: 0.9rem; margin-bottom: 1rem; color: #666; }
+        .btn { display: inline-block; padding: 0.6rem 1.2rem; background: #667eea; color: white; text-decoration: none; border-radius: 5px; transition: 0.3s; }
+        .btn:hover { background: #764ba2; }
+        
+        /* Footer */
+        footer { background: #333; color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
+        
+        /* Sections */
+        h2 { color: #667eea; margin-top: 2rem; margin-bottom: 1rem; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#games">Games</a></li>
+            <li><a href="#tools">Tools</a></li>
+            <li><a href="#web">Web</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>🌟 My Web Projects Portfolio</h1>
+        <p>Explore my collection of games, tools, and web applications</p>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Games Section -->
+        <h2 id="games">🎮 Game Projects</h2>
+        <div class="projects">
+            <div class="project-card">
+                <div class="project-img">🎲</div>
+                <div class="project-info">
+                    <h3>Dice Roller Game</h3>
+                    <p>Roll the dice and test your luck!</p>
+                    <a href="Dice Roller Game.htm" class="btn">Play Now</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">🍪</div>
+                <div class="project-info">
+                    <h3>Cookie Tycoon</h3>
+                    <p>Build your cookie empire!</p>
+                    <a href="Cookie Tycoon.htm" class="btn">Play Now</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">⚔️</div>
+                <div class="project-info">
+                    <h3>Cyber Strike Arena</h3>
+                    <p>Battle in the digital world</p>
+                    <a href="Cyber Strike Arena.htm" class="btn">Play Now</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">🏨</div>
+                <div class="project-info">
+                    <h3>Hotel Manager</h3>
+                    <p>Manage your own hotel business</p>
+                    <a href="Hotel Manager Tiny Stay.htm" class="btn">Play Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tools Section -->
+        <h2 id="tools">🛠️ Tools & Calculators</h2>
+        <div class="projects">
+            <div class="project-card">
+                <div class="project-img">🧮</div>
+                <div class="project-info">
+                    <h3>Calculator</h3>
+                    <p>Simple and efficient calculator</p>
+                    <a href="Calculator.htm" class="btn">Open</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">📐</div>
+                <div class="project-info">
+                    <h3>Area Calculator</h3>
+                    <p>Calculate areas easily</p>
+                    <a href="Area Calculator using JS.htm" class="btn">Open</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">➕</div>
+                <div class="project-info">
+                    <h3>Counter App</h3>
+                    <p>Simple counter application</p>
+                    <a href="Counter App.htm" class="btn">Open</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">📋</div>
+                <div class="project-info">
+                    <h3>Contact Book</h3>
+                    <p>Manage your contacts</p>
+                    <a href="ContactBook.js" class="btn">View</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Web Projects Section -->
+        <h2 id="web">🌐 Web Projects</h2>
+        <div class="projects">
+            <div class="project-card">
+                <div class="project-img">📝</div>
+                <div class="project-info">
+                    <h3>Form Validation</h3>
+                    <p>Advanced form validation system</p>
+                    <a href="FormValidation.htm" class="btn">View</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">🎠</div>
+                <div class="project-info">
+                    <h3>Carousel Slider</h3>
+                    <p>Beautiful image carousel</p>
+                    <a href="Carousel.htm" class="btn">View</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">🎨</div>
+                <div class="project-info">
+                    <h3>Color Gradient</h3>
+                    <p>Dynamic color changing animation</p>
+                    <a href="Change random colours.htm" class="btn">View</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">📱</div>
+                <div class="project-info">
+                    <h3>Bootstrap Utilities</h3>
+                    <p>Responsive Bootstrap components</p>
+                    <a href="Bootstrap Utilities.HTM" class="btn">View</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Resources -->
+        <h2 id="about">📚 Learning Resources</h2>
+        <div style="background: #f4f4f4; padding: 2rem; border-radius: 10px;">
+            <p>This portfolio includes projects covering:</p>
+            <ul style="margin-left: 2rem; margin-top: 1rem;">
+                <li><strong>HTML & DOM:</strong> DOM manipulation, elements, forms</li>
+                <li><strong>CSS:</strong> Styling, animations, responsive design</li>
+                <li><strong>JavaScript:</strong> ES6+, async/await, callbacks, classes</li>
+                <li><strong>Bootstrap:</strong> Component library, utilities, responsive layouts</li>
+                <li><strong>Games & Interactive:</strong> Game mechanics, event handling</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 My Web Projects | All Rights Reserved</p>
+        <p>Built with HTML, CSS & JavaScript</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Add animation on scroll
+        const cards = document.querySelectorAll('.project-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeIn 0.6s ease-in';
+                }
+            });
+        });
+        cards.forEach(card => observer.observe(card));
+    </script>
+
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
+</body>
+</html>

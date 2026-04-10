@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>About Us</title>
+<style>
+  /* reset / box‑sizing */
+  *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+
+  body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;           /* header / content / footer */
+    grid-template-columns: 200px 1fr;            /* sidebar / main */
+    min-height: 100vh;
+  }
+
+  header, footer {
+    grid-column: 1 / -1;                         /* span both columns */
+    background:#ccc;
+    padding: 1rem;
+    text-align:center;
+  }
+
+  #sidebar {
+    background:#add8e6;                          /* light blue */
+    padding:1rem;
+  }
+
+  #main {
+    background:#ffc0cb;                          /* light pink */
+    padding:1rem;
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+    <h1>About Us</h1>
+</header>
+
+<nav id="sidebar">
+    <ul>
+        <li><a href="Basic Page Layout.htm">Home</a></li>
+        <li><a href="About.htm">About</a></li>
+        <li><a href="Services.htm">Services</a></li>
+        <li><a href="Contact.htm">Contact</a></li>
+    </ul>
+</nav>
+
+<main id="main">
+    <h2>About Our Website</h2>
+    <p>This is the about page. Here you can learn more about our website and what we offer.</p>
+    <p>We are dedicated to providing high-quality web content and tutorials.</p>
+</main>
+
+<footer id="footer">
+    <p>&copy; 2026 My Website. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

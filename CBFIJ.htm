@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBFIJ</title>
+</head>
+<body>
+    <button onclick="myfunction(5)">Execute Js function </button>
+    <script>
+        function myfunction(a) {
+            alert("Hello from JS function! Value: " + a);
+        }
+        if  (typeof window !== 'undefined') {
+            window.myfunction = myfunction;
+        }
+    </script>
+</body>
+</html> 

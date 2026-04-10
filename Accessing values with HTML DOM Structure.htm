@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessing values with HTML DOM Structure</title>
+</head>
+<body>
+    <h2>Accessing values with HTML DOM Structure</h2>
+    <form id="myForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="JohnDoe"><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="john@example.com"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Accessing values using HTML DOM structure
+            var username = document.getElementById('username').value;
+            var email = document.getElementById('email').value;
+
+            console.log('Username:', username);
+            console.log('Email:', email);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Navigation Bar</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+        
+        nav {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        nav ul li {
+            position: relative;
+        }
+        
+        nav ul li a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+            border-bottom: 3px solid #ffb347;
+        }
+        
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 15px 20px;
+        }
+        
+        .mobile-toggle {
+            display: none;
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            padding: 15px 20px;
+        }
+        
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .section {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+        
+        .section p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .active {
+            border-bottom: 3px solid #ffb347;
+            background-color: rgba(255,179,71,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav ul:not(.active) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; width: 100%;">
+            <div class="navbar-brand">MyWebsite</div>
+            <span class="mobile-toggle">☰</span>
+            <ul id="navMenu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#blog">Blog</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content">
+        <section class="section" id="home">
+            <h2>Welcome to Our Website</h2>
+            <p>This is an advanced navigation bar example with responsive design, smooth animations, and multiple sections.</p>
+            <p>The navbar features a sticky positioning, gradient background, hover effects, and mobile responsiveness.</p>
+        </section>
+
+        <section class="section" id="about">
+            <h2>About Us</h2>
+            <p>We are dedicated to providing high-quality web solutions and services to our clients.</p>
+            <p>Our team consists of experienced developers and designers who are passionate about creating beautiful and functional websites.</p>
+        </section>
+
+        <section class="section" id="services">
+            <h2>Our Services</h2>
+            <p>• Web Design and Development</p>
+            <p>• Responsive Design Implementation</p>
+            <p>• UI/UX Optimization</p>
+            <p>• Performance Enhancement</p>
+        </section>
+
+        <section class="section" id="portfolio">
+            <h2>Portfolio</h2>
+            <p>Check out our latest projects and case studies showcasing our expertise in web development.</p>
+        </section>
+
+        <section class="section" id="contact">
+            <h2>Get In Touch</h2>
+            <p>Email: info@mywebsite.com</p>
+            <p>Phone: +1 (555) 123-4567</p>
+        </section>
+
+        <section class="section" id="blog">
+            <h2>Latest Blog Posts</h2>
+            <p>Stay updated with our latest articles on web development, design trends, and best practices.</p>
+        </section>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Mobile menu toggle
+            $('.mobile-toggle').click(function() {
+                $('#navMenu').toggleClass('active');
+            });
+
+            // Close menu when link is clicked
+            $('nav a').click(function() {
+                if ($(this).parent().parent().hasClass('active')) {
+                    $('#navMenu').removeClass('active');
+                }
+                setActiveLink(this);
+            });
+
+            // Set active link based on scroll position
+            function setActiveLink(element) {
+                $('nav a').removeClass('active');
+                $(element).addClass('active');
+            }
+
+            // Smooth scroll
+            $('a[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                var target = $(this.getAttribute('href'));
+                if(target.length) {
+                    $('html, body').stop().animate({
+                        scrollTop: target.offset().top - 60
+                    }, 1000);
+                }
+            });
+
+            // Update active link on scroll
+            $(window).scroll(function() {
+                var scrollPosition = $(window).scrollTop() + 100;
+                $('section').each(function() {
+                    var section = $(this);
+                    if(section.offset().top <= scrollPosition && section.offset().top + section.height() > scrollPosition) {
+                        var id = section.attr('id');
+                        $('nav a').removeClass('active');
+                        $('nav a[href="#' + id + '"]').addClass('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

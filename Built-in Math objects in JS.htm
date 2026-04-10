@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Built-in Math objects in JS</title>
+</head>
+<body>
+    <h2>Built-in Math objects in JS</h2>
+    <p>JavaScript provides a built-in Math object that contains properties and methods for mathematical constants and functions.</p>
+    <p id="Demo"></p>
+    <script>
+        // Displaying some built-in Math properties
+        const demoElement = document.getElementById('Demo');
+        demoElement.innerHTML = `
+            <strong>Math Properties:</strong><br>
+            Math.PI: ${Math.PI}<br>
+            Math.E: ${Math.E}<br><br>
+            <strong>Math Methods:</strong><br>
+            Math.abs(-5): ${Math.abs(-5)}<br>
+            Math.sqrt(16): ${Math.sqrt(16)}<br>
+            Math.max(1, 2, 3, 4, 5): ${Math.max(1, 2, 3, 4, 5)}<br>
+            Math.min(1, 2, 3, 4, 5): ${Math.min(1, 2, 3, 4, 5)}<br>
+        `;
+    </script>
+</body>
+</html>

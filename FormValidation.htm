@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Form Validation (Real-time)</title>
+  <style>body{font-family:Segoe UI,Arial;padding:1rem} .error{color:#b00;font-size:.9rem}</style>
+</head>
+<body>
+  <h2>Sign Up</h2>
+  <form id="f" novalidate>
+    <div>
+      <label>Email: <input id="email" type="email"></label>
+      <div id="eMsg" class="error"></div>
+    </div>
+    <div>
+      <label>Password: <input id="pw" type="password"></label>
+      <div id="pMsg" class="error"></div>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const email = document.getElementById('email');
+    const pw = document.getElementById('pw');
+    const eMsg = document.getElementById('eMsg');
+    const pMsg = document.getElementById('pMsg');
+
+    function validateEmail(){
+      const v = email.value;
+      if(!v) return 'Email required';
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      return ok ? '' : 'Enter a valid email';
+    }
+    function validatePw(){
+      const v = pw.value;
+      if(v.length < 6) return 'Password must be 6+ chars';
+      if(!/[0-9]/.test(v)) return 'Include a number';
+      return '';
+    }
+
+    email.addEventListener('input', ()=>{ eMsg.textContent = validateEmail(); });
+    pw.addEventListener('input', ()=>{ pMsg.textContent = validatePw(); });
+
+    document.getElementById('f').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const eErr = validateEmail();
+      const pErr = validatePw();
+      eMsg.textContent = eErr; pMsg.textContent = pErr;
+      if(!eErr && !pErr) alert('Form ok — normally send to server');
+    });
+  </script>
+</body>
+</html>

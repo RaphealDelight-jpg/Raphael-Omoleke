@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DOM Manipulation Demo</title>
+  <style>body{font-family:Segoe UI,Arial;padding:1rem} .card{padding:.7rem;border:1px solid #ddd;border-radius:6px;margin:.5rem 0}</style>
+</head>
+<body>
+  <h2>DOM Demo</h2>
+  <button id="addEl">Create Card</button>
+  <button id="clear">Clear All</button>
+  <div id="container"></div>
+
+  <script>
+    const cont = document.getElementById('container');
+    let count = 0;
+    document.getElementById('addEl').addEventListener('click', ()=>{
+      count++;
+      const d = document.createElement('div');
+      d.className = 'card';
+      d.innerHTML = `<strong>Card ${count}</strong> <button class="rm">Remove</button>`;
+      cont.appendChild(d);
+    });
+
+    // Event delegation for remove buttons
+    cont.addEventListener('click', e=>{
+      if(e.target.classList.contains('rm')){
+        e.target.closest('.card').remove();
+      }
+    });
+
+    document.getElementById('clear').addEventListener('click', ()=>{ cont.innerHTML = ''; count = 0; });
+  </script>
+</body>
+</html>"}}]}

@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VARtoons News & Tech Hub - Latest News, Trending Updates & Web Projects</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #e94560;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --text: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--light);
+        }
+        
+        /* Header */
+        header {
+            background: white;
+            border-bottom: 3px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-top {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark) 100%);
+            color: white;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .live-time {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .logo-nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+        
+        /* Navigation */
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+            background: var(--light);
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--light);
+            border-radius: 25px;
+            padding: 0.5rem 1.5rem;
+            border: 2px solid var(--primary);
+        }
+        
+        .search-bar input {
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+            width: 250px;
+            outline: none;
+        }
+        
+        .search-bar button {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .search-bar button:hover {
+            background: var(--secondary);
+        }
+        
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .hero-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-banner p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* News Grid */
+        .news-section {
+            margin: 3rem 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--primary);
+            display: inline-block;
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .news-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .news-img {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .news-content {
+            padding: 1.5rem;
+        }
+        
+        .news-category {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .news-title {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin: 0.5rem 0;
+            line-height: 1.4;
+        }
+        
+        .news-desc {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+        
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+            font-size: 0.85rem;
+            color: #999;
+        }
+        
+        .read-more {
+            display: inline-block;
+            color: var(--primary);
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        
+        .read-more:hover {
+            color: var(--secondary);
+        }
+        
+        /* Featured Article */
+        .featured {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .featured-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            align-items: center;
+        }
+        
+        .featured-img {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+        }
+        
+        .featured-text h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+        
+        .featured-text p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
+        
+        .btn-secondary {
+            background: var(--accent);
+        }
+        
+        /* Trending Bar */
+        .trending-bar {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+        
+        .trending-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .trending-items {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+        
+        .trend-item {
+            background: var(--light);
+            padding: 0.8rem 1.2rem;
+            border-radius: 20px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: 0.3s;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .trend-item:hover {
+            background: var(--primary);
+            color: white;
+            border-left-color: var(--secondary);
+        }
+        
+        /* Portfolio Showcase */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .portfolio-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            text-align: center;
+        }
+        
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.25);
+        }
+        
+        .portfolio-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        .portfolio-card h4 {
+            padding: 1rem;
+            color: var(--primary);
+        }
+        
+        .portfolio-card a {
+            display: inline-block;
+            padding: 0.6rem 1rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            transition: 0.3s;
+        }
+        
+        .portfolio-card a:hover {
+            background: var(--secondary);
+        }
+        
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .gallery img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        
+        .gallery img:hover {
+            transform: scale(1.08);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #444;
+        }
+        
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+            }
+            
+            .search-bar input {
+                width: 150px;
+            }
+            
+            .featured-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-top {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        
+        /* Database Display */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+        
+        .data-table thead {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: bold;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .data-table tbody tr:hover {
+            background: var(--light);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Top -->
+    <header>
+        <div class="header-top">
+            <strong>VARtoons News & Tech Hub</strong>
+            <div class="live-time">
+                <span>🔴 LIVE</span>
+                <span id="current-time">Loading...</span>
+            </div>
+        </div>
+        
+        <!-- Logo & Navigation -->
+        <div class="logo-nav">
+            <div class="logo">📰 VARNEWS</div>
+            <nav>
+                <a href="#news">News</a>
+                <a href="#trending">Trending</a>
+                <a href="#featured">Featured</a>
+                <a href="#portfolio">Projects</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search news...">
+                <button onclick="searchNews()">🔍</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+        <h1>🌟 Your #1 Source for Web Tech & Breaking News</h1>
+        <p>Real-time updates, trending news, and exclusive project showcases - All in one place!</p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Featured Article -->
+        <section class="featured" id="featured">
+            <div class="featured-content">
+                <div class="featured-img">🔥</div>
+                <div class="featured-text">
+                    <span class="news-category">BREAKING NEWS</span>
+                    <h2>Web Development Revolution: Latest Trends in 2026</h2>
+                    <p>Discover the cutting-edge technologies and frameworks reshaping web development. AI integration, real-time databases, and next-gen JavaScript frameworks are transforming how we build applications. Learn more about what's coming next...</p>
+                    <a href="#" class="btn">Read Full Story</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trending Bar -->
+        <div class="trending-bar">
+            <div class="trending-title">🔥 TRENDING NOW</div>
+            <div class="trending-items">
+                <div class="trend-item">#JavaScript2026</div>
+                <div class="trend-item">#ReactJS</div>
+                <div class="trend-item">#WebDevelopment</div>
+                <div class="trend-item">#AI Integration</div>
+                <div class="trend-item">#CloudTech</div>
+                <div class="trend-item">#GameDev</div>
+                <div class="trend-item">#VARtoons</div>
+                <div class="trend-item">#BootstrapFramework</div>
+            </div>
+        </div>
+
+        <!-- Breaking News -->
+        <section class="news-section" id="news">
+            <h2 class="section-title">⚡ Breaking News</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-img">📱</div>
+                    <div class="news-content">
+                        <span class="news-category">TECHNOLOGY</span>
+                        <h3 class="news-title">New JavaScript Framework Released</h3>
+                        <p class="news-desc">Industry leaders launch revolutionary framework with AI integration...</p>
+                        <div class="news-meta">
+                            <span>2 mins ago</span>
+                            <a href="#" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-img">🎮</div>
+                    <div class="news-content">
+                        <span class="news-category">GAMING</span>
+                        <h3 class="news-title">VARtoons Hits 1M Subscribers!</h3>
+                        <p class="news-desc">Football parody channel reaches major milestone with hilarious content...</p>
+                        <div class="news-meta">
+                            <span>5 mins ago</span>
+                            <a href="#" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-img">💻</div>
+                    <div class="news-content">
+                        <span class="news-category">WEB TECH</span>
+                        <h3 class="news-title">Bootstrap 6 Alpha Released</h3>
+                        <p class="news-desc">New version brings AI-powered responsive design components...</p>
+                        <div class="news-meta">
+                            <span>12 mins ago</span>
+                            <a href="#" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">🚀</div>
+                    <div class="news-content">
+                        <span class="news-category">TRENDS</span>
+                        <h3 class="news-title">Real-Time Database Solutions</h3>
+                        <p class="news-desc">Top companies switch to real-time databases for instant updates...</p>
+                        <div class="news-meta">
+                            <span>18 mins ago</span>
+                            <a href="#" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">🤖</div>
+                    <div class="news-content">
+                        <span class="news-category">AI/ML</span>
+                        <h3 class="news-title">AI Transforms Web Development</h3>
+                        <p class="news-desc">Machine learning algorithms now auto-generate complex code...</p>
+                        <div class="news-meta">
+                            <span>25 mins ago</span>
+                            <a href="#" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">🌐</div>
+                    <div class="news-content">
+                        <span class="news-category">INDUSTRY</span>
+                        <h3 class="news-title">Web Standards Update 2026</h3>
+                        <p class="news-desc">W3C announces groundbreaking new standards for modern web...</p>
+                        <div class="news-meta">
+                            <span>32 mins ago</span>
+                            <a href="#" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Your Portfolio Showcase -->
+        <section class="news-section" id="portfolio">
+            <h2 class="section-title">🌟 Featured Web Projects</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-card">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 80px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">🎲</div>
+                    <h4>Dice Roller</h4>
+                    <a href="Dice Roller Game.htm">Play Now</a>
+                </div>
+                <div class="portfolio-card">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 80px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">🍪</div>
+                    <h4>Cookie Tycoon</h4>
+                    <a href="Cookie Tycoon.htm">Play Now</a>
+                </div>
+                <div class="portfolio-card">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 80px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">⚔️</div>
+                    <h4>Cyber Strike</h4>
+                    <a href="Cyber Strike Arena.htm">Play Now</a>
+                </div>
+                <div class="portfolio-card">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 80px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">🏨</div>
+                    <h4>Hotel Manager</h4>
+                    <a href="Hotel Manager Tiny Stay.htm">Play Now</a>
+                </div>
+                <div class="portfolio-card">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 80px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">🧮</div>
+                    <h4>Calculator</h4>
+                    <a href="Calculator.htm">Open Tool</a>
+                </div>
+                <div class="portfolio-card">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 80px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">📐</div>
+                    <h4>Area Calc</h4>
+                    <a href="Area calculator using JS.htm">Open Tool</a>
+                </div>
+                <div class="portfolio-card">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 80px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">📝</div>
+                    <h4>Form Validator</h4>
+                    <a href="FormValidation.htm">View Project</a>
+                </div>
+                <div class="portfolio-card">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 80px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">🎠</div>
+                    <h4>Carousel</h4>
+                    <a href="Carousel.htm">View Project</a>
+                </div>
+                <div class="portfolio-card">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 80px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">🎨</div>
+                    <h4>Color Mixer</h4>
+                    <a href="Change random colours.htm">View Project</a>
+                </div>
+                <div class="portfolio-card">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 80px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">⏰</div>
+                    <h4>Stopwatch</h4>
+                    <a href="Stopwatch using JS.htm">Open Tool</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live News Database -->
+        <section class="news-section">
+            <h2 class="section-title">📊 Live News Database</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#001</td>
+                        <td>Technology</td>
+                        <td>JavaScript Framework Update</td>
+                        <td><span style="color: red; font-weight: bold;">BREAKING</span></td>
+                        <td>2 mins ago</td>
+                    </tr>
+                    <tr>
+                        <td>#002</td>
+                        <td>Gaming</td>
+                        <td>VARtoons Milestone Achievement</td>
+                        <td><span style="color: green; font-weight: bold;">TRENDING</span></td>
+                        <td>5 mins ago</td>
+                    </tr>
+                    <tr>
+                        <td>#003</td>
+                        <td>Web Development</td>
+                        <td>Bootstrap Framework Release</td>
+                        <td><span style="color: blue; font-weight: bold;">FEATURED</span></td>
+                        <td>12 mins ago</td>
+                    </tr>
+                    <tr>
+                        <td>#004</td>
+                        <td>AI/ML</td>
+                        <td>Artificial Intelligence in Web Dev</td>
+                        <td><span style="color: green; font-weight: bold;">TRENDING</span></td>
+                        <td>25 mins ago</td>
+                    </tr>
+                    <tr>
+                        <td>#005</td>
+                        <td>Industry News</td>
+                        <td>Web Standards Update 2026</td>
+                        <td><span style="color: gray; font-weight: bold;">ARCHIVED</span></td>
+                        <td>32 mins ago</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Image Gallery -->
+        <section class="news-section" id="gallery">
+            <h2 class="section-title">🖼️ Project Assets Gallery</h2>
+            <div class="gallery">
+                <img src="Vartoons.JPG" alt="VARtoons Logo" title="VARtoons Logo">
+                <img src="ayaan.JPG" alt="Portfolio Image" title="Portfolio Image">
+                <img src="AyaanKhan.png" alt="Profile Picture" title="Profile Picture">
+                <img src="Ball.JPG" alt="Game Asset" title="Game Asset">
+                <img src="BootstrapLogo.png" alt="Bootstrap Logo" title="Bootstrap Logo">
+                <img src="CALL STACK.png" alt="Call Stack" title="Call Stack">
+                <img src="dice1-removebg-preview.png" alt="Dice Asset" title="Dice Asset">
+                <img src="object.png" alt="Object" title="Object">
+                <img src="image_logo.png" alt="Logo" title="Logo">
+                <img src="ChatGPT Image Feb 14, 2026, 04_27_07 PM.png" alt="Project Screenshot" title="Project Screenshot">
+            </div>
+        </section>
+
+        <!-- More News & Articles -->
+        <section class="news-section" id="trending">
+            <h2 class="section-title">📰 Latest Updates & Articles</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-img">📚</div>
+                    <div class="news-content">
+                        <span class="news-category">TUTORIAL</span>
+                        <h3 class="news-title">Master HTML5 & CSS3 in 2026</h3>
+                        <p class="news-desc">Complete guide to modern web standards and best practices...</p>
+                        <div class="news-meta">
+                            <span>1 hour ago</span>
+                            <a href="HTML DOM.htm" class="read-more">Learn →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">🔧</div>
+                    <div class="news-content">
+                        <span class="news-category">TOOLS</span>
+                        <h3 class="news-title">Essential Web Dev Tools 2026</h3>
+                        <p class="news-desc">Top tools every developer needs in their arsenal...</p>
+                        <div class="news-meta">
+                            <span>2 hours ago</span>
+                            <a href="Calculator.htm" class="read-more">Explore →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">🎓</div>
+                    <div class="news-content">
+                        <span class="news-category">LEARNING</span>
+                        <h3 class="news-title">JavaScript ES2026 Features</h3>
+                        <p class="news-desc">Learn the latest JavaScript features and improvements...</p>
+                        <div class="news-meta">
+                            <span>3 hours ago</span>
+                            <a href="Arrow function in JS.htm" class="read-more">Read →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">🏆</div>
+                    <div class="news-content">
+                        <span class="news-category">SHOWCASE</span>
+                        <h3 class="news-title">Web Project of the Month</h3>
+                        <p class="news-desc">Outstanding portfolio projects making waves in the industry...</p>
+                        <div class="news-meta">
+                            <span>5 hours ago</span>
+                            <a href="Portfolio.htm" class="read-more">View →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">💬</div>
+                    <div class="news-content">
+                        <span class="news-category">COMMUNITY</span>
+                        <h3 class="news-title">Developer Interviews & Insights</h3>
+                        <p class="news-desc">What top developers are saying about web development trends...</p>
+                        <div class="news-meta">
+                            <span>6 hours ago</span>
+                            <a href="#" class="read-more">Listen →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">🎬</div>
+                    <div class="news-content">
+                        <span class="news-category">ENTERTAINMENT</span>
+                        <h3 class="news-title">Web Dev Comedy Corner</h3>
+                        <p class="news-desc">Hilarious moments in web development - VARtoons style!</p>
+                        <div class="news-meta">
+                            <span>7 hours ago</span>
+                            <a href="https://www.youtube.com/channel/UC6b-ZwcLjnWIilD1SkKAyWg" class="read-more">Watch →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About VARNEWS</h4>
+                <p>Your #1 source for web tech news, gaming updates, trending stories, and exclusive project showcases.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#news">Breaking News</a></li>
+                    <li><a href="#trending">Trending Topics</a></li>
+                    <li><a href="#portfolio">Web Projects</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="#">Technology</a></li>
+                    <li><a href="#">Gaming</a></li>
+                    <li><a href="#">Web Development</a></li>
+                    <li><a href="#">Learning Resources</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="https://twitter.com" target="_blank">Twitter</a>
+                    <a href="https://facebook.com" target="_blank">Facebook</a>
+                    <a href="https://youtube.com/channel/UC6b-ZwcLjnWIilD1SkKAyWg" target="_blank">YouTube</a>
+                </div>
+            </div>
+        </div>
+        <p style="text-align: center; margin: 0 auto; max-width: 1200px;">&copy; 2026 VARtoons News & Tech Hub. All rights reserved. | Built with HTML5, CSS3 & JavaScript | Real-time News & Trending Updates</p>
+    </footer>
+
+    <script>
+        // Live Clock
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleString();
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Search Function
+        function searchNews() {
+            const query = document.getElementById('search-input').value;
+            if (query) {
+                alert('Searching for: ' + query);
+                // In a real application, this would filter news cards
+            }
+        }
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Card Animation on Scroll
+        const newsCards = document.querySelectorAll('.news-card, .portfolio-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeIn 0.6s ease-out forwards';
+                }
+            });
+        });
+        newsCards.forEach(card => observer.observe(card));
+
+        // Gallery Lightbox (simple version)
+        document.querySelectorAll('.gallery img').forEach(img => {
+            img.addEventListener('click', function() {
+                alert('Gallery Feature: Click to expand - ' + this.alt);
+            });
+        });
+    </script>
+
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
+</body>
+</html>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; color: #333; background: #f8f9fa; }
+        
+        /* Navigation */
+        nav { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        nav ul { list-style: none; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        nav a { color: #fff; text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; transition: 0.3s; border-radius: 5px; }
+        nav a:hover { background: #e94560; }
+        
+        /* Header */
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3rem 2rem; text-align: center; }
+        header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        header p { font-size: 1.1rem; opacity: 0.9; }
+        
+        /* Container */
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        
+        /* Section Titles */
+        h2 { color: #1a1a2e; margin: 2rem 0 1.5rem; padding-bottom: 0.8rem; border-bottom: 3px solid #667eea; display: inline-block; font-size: 1.8rem; }
+        
+        /* Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        
+        /* Cards */
+        .card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.3s; }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3); }
+        .card-img { width: 100%; height: 140px; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; }
+        .card-body { padding: 1.2rem; }
+        .card-title { color: #667eea; font-weight: bold; margin-bottom: 0.5rem; font-size: 1rem; }
+        .card-text { color: #666; font-size: 0.85rem; margin-bottom: 1rem; }
+        .btn { display: inline-block; padding: 0.5rem 1rem; background: #667eea; color: white; text-decoration: none; border-radius: 5px; transition: 0.3s; border: none; cursor: pointer; font-size: 0.9rem; }
+        .btn:hover { background: #764ba2; }
+        .btn-secondary { background: #e94560; }
+        .btn-secondary:hover { background: #d63447; }
+        
+        /* Gallery */
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 2rem 0; }
+        .gallery-img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: 0.3s; }
+        .gallery-img:hover { transform: scale(1.05); }
+        
+        /* Hero */
+        .hero { background: white; padding: 2.5rem; text-align: center; border-radius: 10px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .hero img { width: 180px; height: auto; border-radius: 10px; margin-bottom: 1rem; }
+        .hero h2 { border: none; display: block; margin: 1rem 0; }
+        .hero p { color: #666; margin: 0.8rem 0; }
+        
+        /* Badge */
+        .badge { display: inline-block; background: #667eea; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; margin-bottom: 0.5rem; }
+        
+        /* Resources Section */
+        .resources { background: white; padding: 2rem; border-radius: 10px; margin: 2rem 0; }
+        .resources h3 { color: #1a1a2e; margin-top: 1.5rem; margin-bottom: 1rem; }
+        .resources ul { margin-left: 2rem; }
+        .resources li { margin-bottom: 0.5rem; }
+        
+        /* Footer */
+        footer { background: #1a1a2e; color: white; padding: 2rem; text-align: center; margin-top: 3rem; }
+        footer a { color: #667eea; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        
+        /* Menu Toggle */
+        #menu-toggle { display: none; cursor: pointer; color: white; font-size: 1.5rem; }
+        @media (max-width: 768px) {
+            #menu-toggle { display: block; }
+            nav ul { display: none; flex-direction: column; padding: 1rem 2rem; }
+            nav ul.active { display: flex; }
+            .grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <span id="menu-toggle" onclick="toggleMenu()">☰ MENU</span>
+        <ul id="nav-list" class="nav-active">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#games">🎮 Games</a></li>
+            <li><a href="#tools">🛠️ Tools</a></li>
+            <li><a href="#learning">📚 Learning</a></li>
+            <li><a href="#projects">🌐 Projects</a></li>
+            <li><a href="#gallery">🖼️ Gallery</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <header id="home">
+        <h1>🎬 VARtoons & Web Projects</h1>
+        <p>Your Ultimate Portfolio of 70+ Interactive Games, Tools & Learning Resources</p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <img src="Vartoons.JPG" alt="VARtoons Logo">
+            <h2>Welcome to VARtoons</h2>
+            <p><strong>VARtoons</strong> - Football parody cartoons where football logic goes to VAR! ⚽📺</p>
+            <p>#VARtoons #FootballCartoon #VAR #FootballShorts #SoccerComedy #FIFAlogic</p>
+            <a href="https://www.youtube.com/channel/UC6b-ZwcLjnWIilD1SkKAyWg" target="_blank" class="btn btn-secondary">Subscribe to Our Channel</a>
+        </section>
+
+        <!-- Games Section -->
+        <section id="games">
+            <h2>🎮 Game Projects (8+ Games)</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-img">🎲</div>
+                    <div class="card-body"><span class="badge">Game</span><p class="card-title">Dice Roller</p><p class="card-text">Roll and test your luck</p><a href="Dice Roller Game.htm" class="btn">Play</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🍪</div>
+                    <div class="card-body"><span class="badge">Game</span><p class="card-title">Cookie Tycoon</p><p class="card-text">Build your empire</p><a href="Cookie Tycoon.htm" class="btn">Play</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">⚔️</div>
+                    <div class="card-body"><span class="badge">Game</span><p class="card-title">Cyber Strike</p><p class="card-text">Battle arena game</p><a href="Cyber Strike Arena.htm" class="btn">Play</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🏨</div>
+                    <div class="card-body"><span class="badge">Game</span><p class="card-title">Hotel Manager</p><p class="card-text">Manage your hotel</p><a href="Hotel Manager Tiny Stay.htm" class="btn">Play</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🍕</div>
+                    <div class="card-body"><span class="badge">Game</span><p class="card-title">Pizza Rush</p><p class="card-text">Quick action game</p><a href="Pizza Rush.htm" class="btn">Play</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🌳</div>
+                    <div class="card-body"><span class="badge">Game</span><p class="card-title">Fruit Slash Dojo</p><p class="card-text">Slice fruits</p><a href="Fruit Slash Dojo Arena.htm" class="btn">Play</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🏊</div>
+                    <div class="card-body"><span class="badge">Game</span><p class="card-title">Submarine Run</p><p class="card-text">Dodge obstacles</p><a href="Subway Run.htm" class="btn">Play</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🌌</div>
+                    <div class="card-body"><span class="badge">Game</span><p class="card-title">Space Explorer</p><p class="card-text">Explore cosmos</p><a href="SpaceExplorer'sClubs.htm" class="btn">Play</a></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Section -->
+        <section id="tools">
+            <h2>🛠️ Tools & Calculators (10+ Apps)</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-img">🧮</div>
+                    <div class="card-body"><span class="badge">Tool</span><p class="card-title">Calculator</p><p class="card-text">All operations</p><a href="Calculator.htm" class="btn">Open</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📐</div>
+                    <div class="card-body"><span class="badge">Tool</span><p class="card-title">Area Calculator</p><p class="card-text">Shape areas</p><a href="Area calculator using JS.htm" class="btn">Open</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📏</div>
+                    <div class="card-body"><span class="badge">Tool</span><p class="card-title">Perimeter Calculator</p><p class="card-text">Quick calculations</p><a href="Perimeter Calculator.HTM" class="btn">Open</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">➕</div>
+                    <div class="card-body"><span class="badge">Tool</span><p class="card-title">Counter App</p><p class="card-text">Simple counter</p><a href="Counter App.htm" class="btn">Open</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">⏰</div>
+                    <div class="card-body"><span class="badge">Tool</span><p class="card-title">Stopwatch</p><p class="card-text">Timer utility</p><a href="Stopwatch using JS.htm" class="btn">Open</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📅</div>
+                    <div class="card-body"><span class="badge">Tool</span><p class="card-title">Calendar</p><p class="card-text">Date manager</p><a href="Today Calendar.htm" class="btn">Open</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📝</div>
+                    <div class="card-body"><span class="badge">Tool</span><p class="card-title">To-Do List</p><p class="card-text">Task manager</p><a href="TodoApp.html" class="btn">Open</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🛒</div>
+                    <div class="card-body"><span class="badge">Tool</span><p class="card-title">Shopping List</p><p class="card-text">Smart organizer</p><a href="Prepare a shopping list with JS.htm" class="btn">Open</a></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Resources -->
+        <section id="learning" class="resources">
+            <h2>📚 Learning Resources (30+ Tutorials)</h2>
+            <h3>JavaScript Fundamentals</h3>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-img">📖</div>
+                    <div class="card-body"><p class="card-title">Variables</p><a href="Variables.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📖</div>
+                    <div class="card-body"><p class="card-title">Arrays</p><a href="Array in JS.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📖</div>
+                    <div class="card-body"><p class="card-title">Functions</p><a href="Create_Basic_Function_in_JS.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📖</div>
+                    <div class="card-body"><p class="card-title">Loops</p><a href="Loops in JS.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📖</div>
+                    <div class="card-body"><p class="card-title">Conditionals</p><a href="Conditional statements.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📖</div>
+                    <div class="card-body"><p class="card-title">Arrow Functions</p><a href="Arrow function in JS.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📖</div>
+                    <div class="card-body"><p class="card-title">Classes</p><a href="Class in JS.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📖</div>
+                    <div class="card-body"><p class="card-title">Async/Await</p><a href="Async,await in JS.htm" class="btn">Learn</a></div>
+                </div>
+            </div>
+            <h3>HTML & DOM</h3>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-img">📖</div>
+                    <div class="card-body"><p class="card-title">HTML DOM</p><a href="HTML DOM.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📖</div>
+                    <div class="card-body"><p class="card-title">DOM Elements</p><a href="HTMLElement.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📖</div>
+                    <div class="card-body"><p class="card-title">Forms</p><a href="Form.HTM" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📖</div>
+                    <div class="card-body"><p class="card-title">Media & Images</p><a href="HereIAddMedia.htm" class="btn">Learn</a></div>
+                </div>
+            </div>
+            <h3>CSS & Styling</h3>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-img">🎨</div>
+                    <div class="card-body"><p class="card-title">Box Model</p><a href="BoxModel.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🎨</div>
+                    <div class="card-body"><p class="card-title">Positioning</p><a href="Positioning.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🎨</div>
+                    <div class="card-body"><p class="card-title">Animations</p><a href="Animation.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🎨</div>
+                    <div class="card-body"><p class="card-title">Gradients</p><a href="Graident.htm" class="btn">Learn</a></div>
+                </div>
+            </div>
+            <h3>Bootstrap Framework</h3>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-img">🥾</div>
+                    <div class="card-body"><p class="card-title">Bootstrap</p><a href="Bootstrap.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🥾</div>
+                    <div class="card-body"><p class="card-title">Typography</p><a href="BootstrapTypography.htm" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🥾</div>
+                    <div class="card-body"><p class="card-title">Cards & Utils</p><a href="Bootstrap Utilities.HTM" class="btn">Learn</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🥾</div>
+                    <div class="card-body"><p class="card-title">Carousel</p><a href="Carousel.htm" class="btn">Learn</a></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Web Projects -->
+        <section id="projects">
+            <h2>🌐 Web Projects (10+ Projects)</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-img">📝</div>
+                    <div class="card-body"><span class="badge">Web</span><p class="card-title">Form Validation</p><p class="card-text">Advanced forms</p><a href="FormValidation.htm" class="btn">View</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🎠</div>
+                    <div class="card-body"><span class="badge">Web</span><p class="card-title">Carousel</p><p class="card-text">Image slider</p><a href="Carousel.htm" class="btn">View</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🎨</div>
+                    <div class="card-body"><span class="badge">Web</span><p class="card-title">Color Changer</p><p class="card-text">Dynamic colors</p><a href="Change random colours.htm" class="btn">View</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📱</div>
+                    <div class="card-body"><span class="badge">Web</span><p class="card-title">Portfolio</p><p class="card-text">Showcase design</p><a href="Portfolio.htm" class="btn">View</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">🔝</div>
+                    <div class="card-body"><span class="badge">Web</span><p class="card-title">Scrollspy</p><p class="card-text">Navigation effects</p><a href="Horizontal Scrollspy.htm" class="btn">View</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📋</div>
+                    <div class="card-body"><span class="badge">Web</span><p class="card-title">Data Table</p><p class="card-text">Table display</p><a href="GetFamiliarWithTable.htm" class="btn">View</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📍</div>
+                    <div class="card-body"><span class="badge">Web</span><p class="card-title">Pagination</p><p class="card-text">Page layout</p><a href="Pagination.htm" class="btn">View</a></div>
+                </div>
+                <div class="card">
+                    <div class="card-img">📊</div>
+                    <div class="card-body"><span class="badge">Web</span><p class="card-title">Progress Bar</p><p class="card-text">Visual progress</p><a href="ProgressBar.htm" class="btn">View</a></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery">
+            <h2>🖼️ Project Images & Assets</h2>
+            <div class="gallery">
+                <img src="Vartoons.JPG" alt="VARtoons Logo" class="gallery-img">
+                <img src="ayaan.JPG" alt="Avatar" class="gallery-img">
+                <img src="AyaanKhan.png" alt="Profile" class="gallery-img">
+                <img src="Ball.JPG" alt="Ball Game" class="gallery-img">
+                <img src="BootstrapLogo.png" alt="Bootstrap" class="gallery-img">
+                <img src="CALL STACK.png" alt="Call Stack" class="gallery-img">
+                <img src="dice1-removebg-preview.png" alt="Dice 1" class="gallery-img">
+                <img src="object.png" alt="Object" class="gallery-img">
+                <img src="image_logo.png" alt="Logo" class="gallery-img">
+                <img src="ChatGPT Image Feb 14, 2026, 04_27_07 PM.png" alt="Project 1" class="gallery-img">
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" style="background: white; padding: 2rem; border-radius: 10px; margin: 2rem 0;">
+            <h2>About This Portfolio</h2>
+            <p>This comprehensive portfolio contains 70+ projects built with modern web technologies:</p>
+            <ul style="margin: 1rem 0 1rem 2rem; line-height: 1.8;">
+                <li><strong>8+ Interactive Games</strong> - Engaging game mechanics and entertainment</li>
+                <li><strong>10+ Tools & Calculators</strong> - Practical utility applications</li>
+                <li><strong>30+ Learning Resources</strong> - JavaScript, HTML, CSS, Bootstrap tutorials</li>
+                <li><strong>10+ Web Projects</strong> - Forms, carousels, interactive features</li>
+                <li><strong>All Assets Included</strong> - Images, videos, audio resources</li>
+            </ul>
+            <p><strong>Built with:</strong> HTML5, CSS3, JavaScript ES6+, Bootstrap 5</p>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>Your #1 source for web tech news, gaming updates, and development tutorials.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#news">News</a></li>
+                    <li><a href="#trending">Trending</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="https://twitter.com" target="_blank">Twitter</a>
+                    <a href="https://facebook.com" target="_blank">Facebook</a>
+                    <a href="https://youtube.com/channel/UC6b-ZwcLjnWIilD1SkKAyWg" target="_blank">YouTube</a>
+                </div>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 2rem;">&copy; 2026 VARtoons News & Tech Hub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Menu Toggle
+        function toggleMenu() {
+            const navList = document.getElementById('nav-list');
+            navList.classList.toggle('active');
+        }
+        
+        // Close menu on link click
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-list').classList.remove('active');
+            });
+        });
+        
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+        
+        // Scroll Animation
+        const cards = document.querySelectorAll('.card');
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slideIn 0.5s ease-out forwards';
+                }
+            });
+        });
+        cards.forEach(card => cardObserver.observe(card));
+    </script>
+
+    <style>
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        nav ul.active { display: flex !important; }
+    </style>
+
+</body>
+</html>

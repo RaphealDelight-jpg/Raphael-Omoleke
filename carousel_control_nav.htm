@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Carousel-Controlled Nav </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style> .hero{height:60vh;object-fit:cover} .sidebar{top:6rem;}</style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#sideNav" data-bs-offset="100" tabindex="0">
+  <header class="bg-light py-2">
+    <div class="container"><h4 class="mb-0">EventReality — Nav controlling Carousel</h4></div>
+  </header>
+
+  <div class="container-fluid">
+    <div class="row">
+      <aside class="col-md-3 d-none d-md-block position-sticky sidebar">
+        <nav id="sideNav" class="nav flex-column nav-pills p-3">
+          <!-- These links also control carousel using data-bs-target & data-bs-slide-to -->
+          <a class="nav-link" href="#slide1" data-bs-target="#mainC" data-bs-slide-to="0">Slide 1</a>
+          <a class="nav-link" href="#slide2" data-bs-target="#mainC" data-bs-slide-to="1">Slide 2</a>
+          <a class="nav-link" href="#slide3" data-bs-target="#mainC" data-bs-slide-to="2">Slide 3</a>
+        </nav>
+      </aside>
+
+      <main class="col-md-9">
+        <div id="mainC" class="carousel slide" data-bs-ride="false">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="https://picsum.photos/1200/500?random=21" class="d-block w-100 hero" alt="s1">
+              <div class="carousel-caption d-none d-md-block"><h5 id="slide1">Collection A</h5></div>
+            </div>
+            <div class="carousel-item">
+              <img src="https://picsum.photos/1200/500?random=22" class="d-block w-100 hero" alt="s2">
+              <div class="carousel-caption d-none d-md-block"><h5 id="slide2">Collection B</h5></div>
+            </div>
+            <div class="carousel-item">
+              <img src="https://picsum.photos/1200/500?random=23" class="d-block w-100 hero" alt="s3">
+              <div class="carousel-caption d-none d-md-block"><h5 id="slide3">Collection C</h5></div>
+            </div>
+          </div>
+        </div>
+
+        <section class="p-4">
+          <h3>How it works</h3>
+          <p>Click a nav item to move the carousel to the matching slide. Scrollspy highlights the nav as you scroll.</p>
+        </section>
+
+        <section id="more" class="p-4">
+          <h3>More Info</h3>
+          <p>Additional content below the carousel to demonstrate scrollspy behavior.</p>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Ensure nav links also update active class when carousel changes
+    const carousel = document.querySelector('#mainC');
+    carousel.addEventListener('slide.bs.carousel', function (e) {
+      const idx = e.to;
+      const links = document.querySelectorAll('#sideNav .nav-link');
+      links.forEach((a,i)=> a.classList.toggle('active', i===idx));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DataAnalizer — Single File</title>
+  <style>
+    body { font-family: system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; margin:1rem; color:#111 }
+    header { display:flex; gap:1rem; align-items:center; margin-bottom:1rem }
+    h1 { margin:0; font-size:1.25rem }
+    .grid { display:grid; grid-template-columns: 1fr 420px; gap:1rem; align-items:start }
+    textarea,input,select,button { font:inherit }
+    textarea { width:100%; height:220px; resize:vertical }
+    .panel { border:1px solid #ddd; padding:0.75rem; border-radius:6px; background:#fafafa }
+    .controls { display:flex; gap:.5rem; margin-bottom:.5rem; flex-wrap:wrap }
+    table { border-collapse:collapse; width:100%; font-size:0.9rem }
+    th,td { border:1px solid #eee; padding:.35rem .5rem; text-align:left }
+    .muted { color:#666; font-size:0.9rem }
+    .small { font-size:0.85rem }
+    .result { max-height:460px; overflow:auto }
+    .steps { margin-top:.5rem }
+    .badge { background:#eef; padding:.1rem .4rem; border-radius:4px; font-weight:600; font-size:0.8rem }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>DataAnalizer</h1>
+      <div class="muted small">Analyze CSV/text datasets quickly in-browser — summary, numeric stats, frequencies.</div>
+    </div>
+    <div style="margin-left:auto" class="muted small">Model: GPT-5 mini (copilot)</div>
+  </header>
+
+  <div class="grid">
+    <section>
+      <div class="panel">
+        <strong>Description</strong>
+        <p class="muted small">This tool analyzes pasted or uploaded data, computes column summaries, numeric statistics, and top values. Follow the steps below to prepare and analyze data.</p>
+
+        <div class="steps">
+          <ol>
+            <li>Define the question or goal for your dataset.</li>
+            <li>Paste CSV or upload a CSV file below (delimiters supported: comma/semicolon/tab).</li>
+            <li>Click Analyze to get column summaries and quick insights.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div style="height:0.5rem"></div>
+
+      <div class="panel">
+        <div class="controls">
+          <label class="small">Delimiter:
+            <select id="delim">
+              <option value=",">Comma (,)</option>
+              <option value=";">Semicolon (;)</option>
+              <option value="\t">Tab</option>
+            </select>
+          </label>
+
+          <label class="small">Has header:
+            <select id="hasHeader">
+              <option value="true" selected>Yes</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+
+          <input id="file" type="file" accept=".csv,.txt" />
+          <button id="loadFile">Load file</button>
+          <button id="analyze">Analyze</button>
+          <button id="clear">Clear</button>
+        </div>
+
+        <textarea id="input" placeholder="Paste CSV text here or load a file..."></textarea>
+        <div class="muted small" style="margin-top:.5rem">Tip: If your file uses a different delimiter, choose it above. For single-file apps, this runs fully in your browser.</div>
+      </div>
+    </section>
+
+    <aside>
+      <div class="panel">
+        <strong>Quick actions</strong>
+        <div style="margin-top:.5rem">
+          <button id="showSample">Insert sample CSV</button>
+        </div>
+        <hr />
+        <div class="result" id="results" aria-live="polite"></div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // Minimal, robust CSV parser that handles quoted fields
+    function parseCSV(text, delim=',', hasHeader=true) {
+      const rows = [];
+      let cur = '', row = [], inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        const next = text[i+1];
+        if (ch === '"' ) {
+          if (inQuotes && next === '"') { cur += '"'; i++; continue; } // escaped quote
+          inQuotes = !inQuotes;
+          continue;
+        }
+        if (!inQuotes && (ch === delim || ch === '\r' || ch === '\n')) {
+          // delimiter or linebreak
+          row.push(cur);
+          cur = '';
+          if (ch === '\r' && next === '\n') { i++; } // skip CRLF second char
+          if (!inQuotes && (ch === '\n' || ch === '\r')) {
+            rows.push(row);
+            row = [];
+          }
+          continue;
+        }
+        cur += ch;
+      }
+      // push last
+      row.push(cur);
+      if (row.length > 1 || row[0] !== '') rows.push(row);
+
+      // normalize rows: trim trailing empty columns if header has more columns
+      const maxCols = Math.max(...rows.map(r => r.length));
+      for (const r of rows) while (r.length < maxCols) r.push('');
+
+      if (rows.length === 0) return [];
+      if (hasHeader) {
+        const headers = rows.shift().map(h => h.trim() || '(empty)');
+        return rows.map(r => {
+          const obj = {};
+          for (let i=0;i<headers.length;i++) obj[headers[i]] = r[i] ?? '';
+          return obj;
+        });
+      } else {
+        // generate headers like col1,col2...
+        const headers = [];
+        for (let i = 0; i < rows[0].length; i++) headers.push('col' + (i+1));
+        return rows.map(r => {
+          const obj = {};
+          for (let i=0;i<headers.length;i++) obj[headers[i]] = r[i] ?? '';
+          return obj;
+        });
+      }
+    }
+
+    function analyze(data) {
+      const cols = Object.keys(data[0] || {});
+      const stats = {};
+      for (const c of cols) {
+        const vals = data.map(r => r[c]);
+        const cleaned = vals.map(v => (v ?? '').toString().trim());
+        const numeric = cleaned.map(v => v === '' ? NaN : Number(v.replace(/,/g,'')));
+        const isNumeric = numeric.filter(v => !Number.isNaN(v)).length >= Math.max(1, Math.floor(cleaned.length * 0.6));
+        if (isNumeric) {
+          const nums = numeric.filter(v => !Number.isNaN(v));
+          const sum = nums.reduce((a,b)=>a+b,0);
+          const cnt = nums.length;
+          stats[c] = {
+            type: 'numeric',
+            count: cnt,
+            sum,
+            mean: cnt ? sum / cnt : NaN,
+            min: cnt ? Math.min(...nums) : NaN,
+            max: cnt ? Math.max(...nums) : NaN,
+            sample: cleaned.slice(0,5)
+          };
+        } else {
+          // frequency
+          const freq = {};
+          for (const v of cleaned) { freq[v] = (freq[v]||0)+1; }
+          const entries = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,10);
+          stats[c] = {
+            type: 'categorical',
+            unique: Object.keys(freq).length,
+            top: entries,
+            sample: cleaned.slice(0,5)
+          };
+        }
+      }
+      return stats;
+    }
+
+    function renderStats(stats) {
+      const container = document.getElementById('results');
+      container.innerHTML = '';
+      if (!stats || Object.keys(stats).length === 0) {
+        container.innerHTML = '<div class="muted">No data to analyze.</div>';
+        return;
+      }
+      for (const [col, s] of Object.entries(stats)) {
+        const el = document.createElement('div');
+        el.style.marginBottom = '.85rem';
+        el.innerHTML = `<strong>${escapeHtml(col)}</strong> <span class="muted small">(${s.type})</span>`;
+        if (s.type === 'numeric') {
+          const t = document.createElement('table');
+          t.innerHTML = `<tr><th>count</th><th>sum</th><th>mean</th><th>min</th><th>max</th></tr>
+            <tr><td>${s.count}</td><td>${num(s.sum)}</td><td>${num(s.mean)}</td><td>${num(s.min)}</td><td>${num(s.max)}</td></tr>`;
+          el.appendChild(t);
+        } else {
+          const t = document.createElement('table');
+          t.innerHTML = `<tr><th>unique values</th><th>top values (value : count)</th></tr>`;
+          const topHtml = s.top.map(x => `<div>${escapeHtml(x[0])} : ${x[1]}</div>`).join('');
+          t.rows[0].insertCell(); // ensure two columns available
+          t.rows[0].cells[0].outerHTML = t.rows[0].cells[0].outerHTML; // noop to keep structure
+          t.innerHTML += `<tr><td>${s.unique}</td><td>${topHtml}</td></tr>`;
+          el.appendChild(t);
+        }
+        container.appendChild(el);
+      }
+    }
+
+    // helpers
+    function escapeHtml(s) {
+      return (s+'').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    }
+    function num(n){ return Number.isFinite(n) ? String(Number(Math.round(n*1e6)/1e6)) : '—'; }
+
+    // wiring
+    document.getElementById('loadFile').addEventListener('click', ()=>{
+      const f = document.getElementById('file').files[0];
+      if (!f) { alert('Choose a file first'); return; }
+      const reader = new FileReader();
+      reader.onload = () => { document.getElementById('input').value = reader.result; };
+      reader.readAsText(f);
+    });
+
+    document.getElementById('analyze').addEventListener('click', ()=>{
+      const raw = document.getElementById('input').value.trim();
+      if (!raw) { alert('No data provided'); return; }
+      const delim = document.getElementById('delim').value === '\\t' ? '\t' : document.getElementById('delim').value;
+      const hasHeader = document.getElementById('hasHeader').value === 'true';
+      try {
+        const rows = parseCSV(raw, delim, hasHeader);
+        if (!rows || rows.length === 0) { document.getElementById('results').innerHTML = '<div class="muted">No rows parsed.</div>'; return; }
+        const st = analyze(rows);
+        renderStats(st);
+      } catch (e) {
+        document.getElementById('results').innerText = 'Error parsing data: ' + (e && e.message ? e.message : String(e));
+      }
+    });
+
+    document.getElementById('clear').addEventListener('click', ()=>{
+      document.getElementById('input').value = '';
+      document.getElementById('results').innerHTML = '';
+      document.getElementById('file').value = '';
+    });
+
+    document.getElementById('showSample').addEventListener('click', ()=>{
+      const sample = `product,region,units,price
+Widget A,North,120,9.99
+Widget B,South,85,12.50
+Widget A,East,60,9.99
+Widget C,West,10,19.95
+Widget B,North,45,12.50
+Widget A,South,200,9.99
+`;
+      document.getElementById('input').value = sample;
+    });
+
+    // initialize results area
+    document.getElementById('results').innerHTML = '<div class="muted">Load or paste CSV then click Analyze.</div>';
+  </script>
+</body>
+</html>

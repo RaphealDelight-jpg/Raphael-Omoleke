@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arguments object in JS</title>
+</head>
+<body>
+    <h2>Arguments object in JS</h2>
+    <p>In JavaScript, the <code>arguments</code> object is an array-like object accessible inside functions that contains the values of the arguments passed to that function.</p>
+    <p>However, with the introduction of ES6, the rest parameter syntax (<code>...args</code>) is now the preferred way to handle function arguments as it provides a true array.</p>
+    <p id="Demo"></p>
+    <script>
+        // Function using the arguments object
+        function sumUsingArguments() {
+            let total = 0;
+            for (let i = 0; i < arguments.length; i++) {
+                total += arguments[i];
+            }
+            return total;
+        }
+
+        // Function using rest parameters
+        function sumUsingRest(...args) {
+            return args.reduce((total, num) => total + num, 0);
+        }
+
+        // Displaying results
+        const demoElement = document.getElementById('Demo');
+        demoElement.innerHTML = `
+            <strong>Using arguments object:</strong><br>
+            sumUsingArguments(1, 2, 3, 4, 5): ${sumUsingArguments(1, 2, 3, 4, 5)}<br><br>
+            <strong>Using rest parameters:</strong><br>
+            sumUsingRest(1, 2, 3, 4, 5): ${sumUsingRest(1, 2, 3, 4, 5)}
+        `;
+        </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simple Calculator</title>
+  <style>body{font-family:Segoe UI,Arial;padding:1rem} .row{margin-bottom:.5rem}</style>
+</head>
+<body>
+  <h2>Calculator</h2>
+  <div class="row">
+    <input id="a" type="number" placeholder="First number"> 
+    <select id="op"><option value="+">+</option><option value="-">-</option><option value="*">*</option><option value="/">/</option></select>
+    <input id="b" type="number" placeholder="Second number">
+    <button id="calc">Calculate</button>
+  </div>
+  <div>Result: <strong id="res">—</strong></div>
+
+  <script>
+    function calculate(){
+      const a = parseFloat(document.getElementById('a').value) || 0;
+      const b = parseFloat(document.getElementById('b').value) || 0;
+      const op = document.getElementById('op').value;
+      let r;
+      switch(op){
+        case '+': r = a + b; break;
+        case '-': r = a - b; break;
+        case '*': r = a * b; break;
+        case '/': r = b !== 0 ? a / b : 'Error (div0)'; break;
+      }
+      document.getElementById('res').textContent = r;
+    }
+    document.getElementById('calc').addEventListener('click', calculate);
+    // live calculate when pressing Enter
+    [document.getElementById('a'),document.getElementById('b')].forEach(el=>el.addEventListener('keydown', e=>{ if(e.key==='Enter') calculate(); }));
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>convert, search and replace string in JS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2 id="title">Convert, Search and Replace string in JavaScript</h2>
+    <h2>Convert, Search and Replace string in JavaScript</h2>
+    <script>
+       var x = "Hello Codingal";
+         document.getElementById("title").innerHTML = x;
+            var n = x.search("Codingal");
+            document.write("The position of Codingal in the string is: " + n + "<br>");
+            var res = x.replace("Codingal", "World");
+            document.write(res);
+        var y = "Hello Ayaan";
+         document.getElementById("title").innerHTML = y;
+            var m = y.search("World");
+            document.write("<br>The position of World in the string is: " + m + "<br>");
+            var res1 = y.replace("World", "Codingal");
+            document.write(res1);
+    </script>
+</body>
+</html>

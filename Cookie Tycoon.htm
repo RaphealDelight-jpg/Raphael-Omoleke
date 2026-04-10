@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cookie Tycoon</title>
+    <style>
+        :root {
+            --primary-color: #d4a373;
+            --secondary-color: #faedcd;
+            --accent-color: #e29578;
+            --bg-color: #fefae0;
+            --text-color: #4a3b2a;
+            --panel-bg: #fff8f0;
+            --success-color: #6ab04c;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none; /* Prevent text selection during rapid clicking */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-controls button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .header-controls button:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        /* --- Main Layout --- */
+        main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            flex-direction: row;
+        }
+
+        /* Left Side: The Cookie */
+        .game-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, #fff 0%, var(--bg-color) 70%);
+            position: relative;
+            padding: 20px;
+        }
+
+        .score-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cookie-count {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--text-color);
+            display: block;
+        }
+
+        .cps-display {
+            font-size: 1rem;
+            color: #888;
+        }
+
+        /* The Big Cookie Button */
+        .cookie-btn {
+            width: 250px;
+            height: 250px;
+            background: #c28850;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15), inset 0 -10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 8px solid #b0733e;
+            outline: none;
+            -webkit-user-drag: none;
+        }
+
+        .cookie-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Chocolate Chips (CSS Art) */
+        .chip {
+            position: absolute;
+            background-color: #3e2723;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        /* Floating Numbers Animation */
+        .floating-text {
+            position: absolute;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            pointer-events: none;
+            animation: floatUp 1s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+        }
+
+        /* Right Side: Upgrades Shop */
+        .shop-area {
+            flex: 0 0 400px;
+            background-color: var(--panel-bg);
+            border-left: 2px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .shop-header {
+            padding: 15px;
+            background-color: rgba(0,0,0,0.03);
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .shop-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        /* Upgrade Card */
+        .upgrade-card {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .upgrade-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+
+        .upgrade-card.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: grayscale(1);
+        }
+
+        .upgrade-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+            width: 50px;
+            text-align: center;
+        }
+
+        .upgrade-info {
+            flex: 1;
+        }
+
+        .upgrade-name {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .upgrade-cost {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .upgrade-stats {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .upgrade-count {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ddd;
+            margin-left: 10px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+            }
+            .game-area {
+                flex: 1;
+                min-height: 40vh;
+            }
+            .cookie-btn {
+                width: 200px;
+                height: 200px;
+            }
+            .shop-area {
+                flex: 1;
+                width: 100%;
+                border-left: none;
+                border-top: 2px solid rgba(0,0,0,0.1);
+                border-radius: 20px 20px 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🍪 Cookie Tycoon</h1>
+    <div class="header-controls">
+        <button id="reset-btn" title="Reset Progress">Reset</button>
+    </div>
+</header>
+
+<main>
+    <!-- Game Interaction Area -->
+    <section class="game-area">
+        <div class="score-container">
+            <span id="score" class="cookie-count">0</span>
+            <div class="cps-display">per second: <span id="cps">0.0</span></div>
+        </div>
+
+        <!-- The CSS Cookie -->
+        <div id="cookie-btn" class="cookie-btn" role="button" aria-label="Click to bake cookies">
+            <!-- Chips generated by JS for randomness -->
+        </div>
+    </section>
+
+    <!-- Shop Area -->
+    <section class="shop-area">
+        <div class="shop-header">
+            Baker's Store
+        </div>
+        <div class="shop-items" id="shop-list">
+            <!-- Items injected by JS -->
+        </div>
+    </section>
+</main>
+
+<div id="toast" class="toast">Message</div>
+
+<script>
+    /**
+     * Game Configuration & State
+     */
+    const GAME_CONFIG = {
+        framerate: 30,
+        autoSaveInterval: 10000, // 10 seconds
+        baseClickValue: 1
+    };
+
+    let state = {
+        cookies: 0,
+        totalCookiesEarned: 0,
+        clickPower: 1,
+        cps: 0,
+        buildings: [
+            { id: 'cursor', name: 'Cursor', baseCost: 15, cps: 0.1, count: 0, icon: '👆' },
+            { id: 'grandma', name: 'Grandma', baseCost: 100, cps: 1, count: 0, icon: '👵' },
+            { id: 'farm', name: 'Cookie Farm', baseCost: 1100, cps: 8, count: 0, icon: '🚜' },
+            { id: 'mine', name: 'Chocolate Mine', baseCost: 12000, cps: 47, count: 0, icon: '⛏️' },
+            { id: 'factory', name: 'Factory', baseCost: 130000, cps: 260, count: 0, icon: '🏭' },
+            { id: 'bank', name: 'Cookie Bank', baseCost: 1400000, cps: 1400, count: 0, icon: '🏦' },
+            { id: 'temple', name: 'Temple', baseCost: 20000000, cps: 7800, count: 0, icon: '🏛️' }
+        ]
+    };
+
+    // DOM Elements
+    const els = {
+        score: document.getElementById('score'),
+        cps: document.getElementById('cps'),
+        cookieBtn: document.getElementById('cookie-btn'),
+        shopList: document.getElementById('shop-list'),
+        toast: document.getElementById('toast'),
+        resetBtn: document.getElementById('reset-btn'),
+        gameArea: document.querySelector('.game-area')
+    };
+
+    /**
+     * Initialization
+     */
+    function init() {
+        loadGame();
+        generateCookieVisuals();
+        renderShop();
+        
+        // Event Listeners
+        els.cookieBtn.addEventListener('mousedown', handleCookieClick);
+        els.cookieBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevent double firing on some devices
+            handleCookieClick(e);
+        }, { passive: false });
+        
+        els.resetBtn.addEventListener('click', () => {
+            if(confirm("Are you sure you want to wipe your save?")) {
+                resetGame();
+            }
+        });
+
+        // Game Loop for Auto-Cookies
+        setInterval(gameLoop, 1000);
+        
+        // Save Interval
+        setInterval(saveGame, GAME_CONFIG.autoSaveInterval);
+
+        updateUI();
+    }
+
+    /**
+     * Core Mechanics
+     */
+    function handleCookieClick(e) {
+        // Add Cookies
+        addCookies(state.clickPower);
+        
+        // Visuals
+        createFloatingText(e);
+        animateCookie();
+    }
+
+    function addCookies(amount) {
+        state.cookies += amount;
+        state.totalCookiesEarned += amount;
+        updateUI();
+        checkShopAvailability();
+    }
+
+    function gameLoop() {
+        if (state.cps > 0) {
+            addCookies(state.cps);
+        }
+    }
+
+    function buyBuilding(index) {
+        const building = state.buildings[index];
+        const cost = calculateCost(building);
+
+        if (state.cookies >= cost) {
+            state.cookies -= cost;
+            building.count++;
+            
+            // Recalculate CPS
+            recalculateCPS();
+            
+            // Update UI
+            updateUI();
+            renderShop(); // Re-render to update costs and counts
+            showToast(`Bought ${building.name}!`);
+            saveGame();
+        } else {
+            showToast("Not enough cookies!", true);
+        }
+    }
+
+    function calculateCost(building) {
+        // Formula: BaseCost * (1.15 ^ Count)
+        return Math.floor(building.baseCost * Math.pow(1.15, building.count));
+    }
+
+    function recalculateCPS() {
+        let newCps = 0;
+        state.buildings.forEach(b => {
+            newCps += (b.cps * b.count);
+        });
+        state.cps = parseFloat(newCps.toFixed(1));
+    }
+
+    function resetGame() {
+        localStorage.removeItem('cookieTycoonSave');
+        location.reload();
+    }
+
+    /**
+     * UI & Visuals
+     */
+    function updateUI() {
+        els.score.textContent = Math.floor(state.cookies).toLocaleString();
+        els.cps.textContent = state.cps.toFixed(1);
+        document.title = `${Math.floor(state.cookies).toLocaleString()} cookies - Cookie Tycoon`;
+    }
+
+    function generateCookieVisuals() {
+        // Add random chocolate chips to the CSS cookie
+        for(let i=0; i<8; i++) {
+            const chip = document.createElement('div');
+            chip.className = 'chip';
+            const size = Math.random() * 20 + 15; // 15px to 35px
+            chip.style.width = `${size}px`;
+            chip.style.height = `${size}px`;
+            
+            // Random position within circle (approximate)
+            const top = Math.random() * 160 + 20;
+            const left = Math.random() * 160 + 20;
+            
+            chip.style.top = `${top}px`;
+            chip.style.left = `${left}px`;
+            
+            // Random rotation for natural look
+            chip.style.transform = `rotate(${Math.random() * 360}deg)`;
+            
+            els.cookieBtn.appendChild(chip);
+        }
+    }
+
+    function animateCookie() {
+        // Simple scale animation handled by CSS :active, 
+        // but we can add a class if we want complex JS animations
+        els.cookieBtn.style.transform = "scale(0.95)";
+        setTimeout(() => {
+            els.cookieBtn.style.transform = "scale(1)";
+        }, 50);
+    }
+
+    function createFloatingText(e) {
+        const text = document.createElement('div');
+        text.className = 'floating-text';
+        text.textContent = `+${state.clickPower}`;
+        
+        // Calculate Position
+        // If touch event, use touches[0], otherwise mouse event
+        let clientX, clientY;
+        if (e.changedTouches && e.changedTouches.length > 0) {
+            clientX = e.changedTouches[0].clientX;
+            clientY = e.changedTouches[0].clientY;
+        } else {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        }
+
+        // Add some randomness to position so they don't stack perfectly
+        const randomX = (Math.random() - 0.5) * 40;
+        
+        text.style.left = `${clientX + randomX}px`;
+        text.style.top = `${clientY - 20}px`;
+        
+        document.body.appendChild(text);
+
+        // Remove after animation finishes
+        setTimeout(() => {
+            text.remove();
+        }, 1000);
+    }
+
+    function renderShop() {
+        els.shopList.innerHTML = '';
+
+        state.buildings.forEach((building, index) => {
+            const cost = calculateCost(building);
+            const canAfford = state.cookies >= cost;
+
+            const card = document.createElement('div');
+            card.className = `upgrade-card ${canAfford ? '' : 'disabled'}`;
+            card.onclick = () => { if(canAfford) buyBuilding(index); };
+
+            card.innerHTML = `
+                <div class="upgrade-icon">${building.icon}</div>
+                <div class="upgrade-info">
+                    <div class="upgrade-name">${building.name}</div>
+                    <div class="upgrade-cost">🍪 ${cost.toLocaleString()}</div>
+                    <div class="upgrade-stats">+${building.cps} CPS</div>
+                </div>
+                <div class="upgrade-count">${building.count}</div>
+            `;
+
+            els.shopList.appendChild(card);
+        });
+    }
+
+    function checkShopAvailability() {
+        // Optimized UI update: only toggle classes, don't re-render HTML
+        const cards = document.querySelectorAll('.upgrade-card');
+        state.buildings.forEach((building, index) => {
+            if(cards[index]) {
+                const cost = calculateCost(building);
+                if (state.cookies >= cost) {
+                    cards[index].classList.remove('disabled');
+                } else {
+                    cards[index].classList.add('disabled');
+                }
+            }
+        });
+    }
+
+    function showToast(msg, isError = false) {
+        els.toast.textContent = msg;
+        els.toast.style.backgroundColor = isError ? '#e74c3c' : 'rgba(0,0,0,0.8)';
+        els.toast.classList.add('show');
+        setTimeout(() => {
+            els.toast.classList.remove('show');
+        }, 2000);
+    }
+
+    /**
+     * Save System
+     */
+    function saveGame() {
+        localStorage.setItem('cookieTycoonSave', JSON.stringify(state));
+        // Optional: Show a small "Saved" indicator
+    }
+
+    function loadGame() {
+        const saved = localStorage.getItem('cookieTycoonSave');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                // Merge saved state with default structure to prevent errors on updates
+                state = { ...state, ...parsed };
+                
+                // Recalculate derived stats just in case
+                recalculateCPS();
+            } catch (e) {
+                console.error("Save file corrupted, starting fresh.");
+            }
+        }
+    }
+
+    // Start the game
+    init();
+
+</script>
+</body>
+</html>

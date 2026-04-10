@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .counter-display {
+            font-size: 64px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 30px 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn-decrease {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        .btn-decrease:hover {
+            background-color: #ee5a52;
+            transform: scale(1.05);
+        }
+
+        .btn-reset {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background-color: #7f8c8d;
+            transform: scale(1.05);
+        }
+
+        .btn-increase {
+            background-color: #51cf66;
+            color: white;
+        }
+
+        .btn-increase:hover {
+            background-color: #40c057;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Counter App</h1>
+        <div class="counter-display" id="counter">0</div>
+        <div class="button-group">
+            <button class="btn-decrease" onclick="decreaseCounter()">Decrease</button>
+            <button class="btn-reset" onclick="resetCounter()">Reset</button>
+            <button class="btn-increase" onclick="increaseCounter()">Increase</button>
+        </div>
+    </div>
+
+    <script>
+        let count = 0;
+
+        function increaseCounter() {
+            count++;
+            updateDisplay();
+        }
+
+        function decreaseCounter() {
+            count--;
+            updateDisplay();
+        }
+
+        function resetCounter() {
+            count = 0;
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.getElementById('counter').textContent = count;
+        }
+    </script>
+</body>
+</html>

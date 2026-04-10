@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Random Numbers Using a While Loop</title>
+</head>
+<body>
+    <h3>Generate Random Numbers Using a While Loop</h3>
+    <p>This example demonstrates how to generate and print random numbers between 1 and 100 using a while loop in JavaScript.</p>
+    <button onclick="generateRandomNumbers()">Generate Random Numbers</button>
+    <p id="randomNumbers"></p>
+    <script>
+        function generateRandomNumbers() {
+            var randomNumbers = "";
+            var count = 0;
+            while (count < 10) {
+                var randomNumber = Math.floor(Math.random() * 100) + 1; // Generate random number between 1 and 100
+                randomNumbers += randomNumber + " ";
+                count++;
+            }
+            document.getElementById("randomNumbers").innerHTML = "Random Numbers: " + randomNumbers;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asynchronous Functions in JavaScript</title>
+</head>
+<link rel="stylesheet" href="styles.css">
+<body>
+    <h1>Asynchronous Functions in JavaScript</h1>
+    <p>Asynchronous functions in JavaScript allow you to perform tasks without blocking the main thread. This is particularly useful for operations that take time to complete, such as network requests or file I/O.
+    Asynchronous functions can be implemented using callbacks, Promises, or the async/await syntax.</p>
+    <p id="result"></p>
+    <script>
+        function fetchData(callback) {
+            setTimeout(() => {
+                const data = "Data fetched from server";
+                callback(data);
+            }, 2000);
+        }
+
+        function displayData(data) {
+            document.getElementById("result").innerHTML = data;
+        }
+
+        fetchData(displayData);
+        document.getElementById("result").innerHTML += "<br>Fetching data asynchronously...";
+    </script>
+</body>
+</html>

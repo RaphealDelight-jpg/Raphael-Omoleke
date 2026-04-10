@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Positioning</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 2000px;
+    }
+
+    .container {
+      margin: 20px;
+      border: 2px solid #333;
+      padding: 20px;
+      position: relative; 
+    }
+
+    .box {
+      width: 120px;
+      height: 80px;
+      color: #fff;
+      text-align: center;
+      line-height: 80px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .static {
+      background: steelblue;
+      position: static;
+    }
+
+    .relative {
+      background: seagreen;
+      position: relative;
+      top: 20px;
+      left: 20px;
+    }
+
+    .absolute {
+      background: crimson;
+      position: absolute;
+      top: 50px;
+      left: 200px;
+    }
+
+    .fixed {
+      background: orange;
+      position: fixed;
+      top: 10px;
+      right: 10px;
+    }
+
+    .sticky {
+      background: goldenrod;
+      position: sticky;
+      top: 0; 
+    }
+  </style>
+</head>
+<body>
+  <h1>CSS Positioning</h1>
+  <p>Scroll down to see how <strong>fixed</strong> and <strong>sticky</strong> behave.</p>
+
+  <div class="container">
+    <div class="box static">Static</div>
+    <div class="box relative">Relative</div>
+    <div class="box absolute">Absolute</div>
+    <div class="box sticky">Sticky</div>
+  </div>
+
+  <div class="box fixed">Fixed</div>
+
+  <p style="margin:20px;">
+    Keep scrolling... notice how the <strong>Fixed</strong> box stays in the corner, while the <strong>Sticky</strong> box sticks to the top of its container when you scroll past it.
+  </p>
+</body>
+</html>

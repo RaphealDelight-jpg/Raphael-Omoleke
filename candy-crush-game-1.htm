@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍬 Candy Crush</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#ff6b9d,#c44dff,#4d79ff);min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden;}
+h1{font-family:'Fredoka One',cursive;color:#fff;font-size:2.5rem;margin:14px 0 2px;text-shadow:0 4px 0 #c44dff,0 0 30px #fff8;}
+#topbar{display:flex;gap:18px;margin-bottom:10px;align-items:center;}
+.stat{background:#fff3;border-radius:14px;padding:7px 18px;color:#fff;text-align:center;}
+.stat span{display:block;font-size:1.3rem;font-weight:900;}
+.stat small{font-size:.7rem;opacity:.8;}
+#board{display:grid;gap:4px;padding:10px;background:#fff2;border-radius:20px;border:3px solid #fff4;box-shadow:0 8px 40px #0004;}
+.cell{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;user-select:none;}
+.cell:hover{transform:scale(1.12);z-index:2;}
+.cell.selected{transform:scale(1.18);box-shadow:0 0 0 4px #fff,0 0 16px #fff8;z-index:3;}
+.cell.matched{animation:pop .35s forwards;}
+@keyframes pop{0%{transform:scale(1.3);}50%{transform:scale(0.1);opacity:0;}100%{transform:scale(0);opacity:0;}}
+.cell.falling{animation:fall .25s ease-in;}
+@keyframes fall{from{transform:translateY(-60px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+#msg{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:linear-gradient(135deg,#ff6b9d,#c44dff);color:#fff;padding:28px 50px;border-radius:24px;font-family:'Fredoka One';font-size:1.6rem;text-align:center;z-index:99;transition:.3s cubic-bezier(.175,.885,.32,1.275);}
+#msg.show{transform:translate(-50%,-50%) scale(1);}
+#lvlbar{width:320px;background:#fff2;border-radius:20px;height:10px;margin-bottom:8px;overflow:hidden;}
+#lvlprog{height:100%;background:linear-gradient(90deg,#ffd166,#ff6b9d);border-radius:20px;transition:width .5s;}
+#lvllabel{color:#fff;font-size:.85rem;margin-bottom:4px;opacity:.9;}
+</style>
+</head>
+<body>
+<h1>🍬 Candy Crush</h1>
+<div id="topbar">
+  <div class="stat"><small>LEVEL</small><span id="lvl">1</span></div>
+  <div class="stat"><small>SCORE</small><span id="score">0</span></div>
+  <div class="stat"><small>MOVES</small><span id="moves">20</span></div>
+  <div class="stat"><small>TARGET</small><span id="target">500</span></div>
+</div>
+<div id="lvllabel">Level Progress</div>
+<div id="lvlbar"><div id="lvlprog" style="width:0%"></div></div>
+<div id="board"></div>
+<div id="msg" id="msg"><div id="msgIcon"></div><div id="msgText"></div><button onclick="nextLevel()" style="margin-top:12px;padding:8px 24px;border:none;border-radius:16px;background:#fff;color:#c44dff;font-family:'Fredoka One';font-size:1.1rem;cursor:pointer;">Next Level 🍭</button></div>
+
+<script>
+const CANDIES=['🍬','🍭','🍡','🍦','🧁','🍩','🍪'];
+let COLS=7,ROWS=7;
+let level=1,score=0,moves=20,target=500;
+let board=[],selected=null,busy=false;
+
+function getLevel(){
+  return {
+    moves:Math.max(10,25-Math.floor(level/3)),
+    target:level*400+Math.floor(level*level*30),
+    cols:Math.min(9,6+Math.floor(level/5)),
+    rows:Math.min(9,6+Math.floor(level/5))
+  };
+}
+
+function randCandy(){
+  const n=Math.min(CANDIES.length,3+Math.floor(level/2));
+  return CANDIES[Math.floor(Math.random()*n)];
+}
+
+function initBoard(){
+  const cfg=getLevel();
+  COLS=cfg.cols;ROWS=cfg.rows;
+  moves=cfg.moves;target=cfg.target;
+  board=[];
+  for(let r=0;r<ROWS;r++){board[r]=[];for(let c=0;c<COLS;c++)board[r][c]=randCandy();}
+  // avoid initial matches
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
+    let attempts=0;
+    while(hasMatchAt(r,c)&&attempts<20){board[r][c]=randCandy();attempts++;}
+  }
+  document.getElementById('lvl').innerText=level;
+  document.getElementById('score').innerText=score;
+  document.getElementById('moves').innerText=moves;
+  document.getElementById('target').innerText=target;
+  document.getElementById('lvlprog').style.width='0%';
+  render();
+}
+
+function hasMatchAt(r,c){
+  const v=board[r][c];
+  if(c>=2&&board[r][c-1]===v&&board[r][c-2]===v)return true;
+  if(r>=2&&board[r-1][c]===v&&board[r-2][c]===v)return true;
+  return false;
+}
+
+function render(){
+  const g=document.getElementById('board');
+  g.style.gridTemplateColumns=`repeat(${COLS},52px)`;
+  g.innerHTML='';
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
+    const cell=document.createElement('div');
+    cell.className='cell';
+    cell.dataset.r=r;cell.dataset.c=c;
+    cell.innerText=board[r][c]||'';
+    const hue=(r*37+c*61)%360;
+    cell.style.background=`hsla(${hue},60%,65%,0.35)`;
+    if(selected&&selected[0]===r&&selected[1]===c)cell.classList.add('selected');
+    cell.onclick=()=>clickCell(r,c);
+    g.appendChild(cell);
+  }
+}
+
+function isAdjacent(r1,c1,r2,c2){return Math.abs(r1-r2)+Math.abs(c1-c2)===1;}
+
+function clickCell(r,c){
+  if(busy)return;
+  if(!selected){selected=[r,c];render();return;}
+  const[sr,sc]=selected;
+  if(sr===r&&sc===c){selected=null;render();return;}
+  if(isAdjacent(sr,sc,r,c)){
+    selected=null;
+    trySwap(sr,sc,r,c);
+  } else {
+    selected=[r,c];render();
+  }
+}
+
+function swap(r1,c1,r2,c2){
+  const tmp=board[r1][c1];board[r1][c1]=board[r2][c2];board[r2][c2]=tmp;
+}
+
+async function trySwap(r1,c1,r2,c2){
+  busy=true;
+  swap(r1,c1,r2,c2);
+  const matches=findMatches();
+  if(matches.size===0){
+    swap(r1,c1,r2,c2);busy=false;render();return;
+  }
+  moves--;
+  document.getElementById('moves').innerText=moves;
+  render();
+  await processMatches();
+  busy=false;
+  checkEnd();
+}
+
+function findMatches(){
+  const matched=new Set();
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS-2;c++){
+    const v=board[r][c];
+    if(v&&v===board[r][c+1]&&v===board[r][c+2]){
+      let e=c+2;while(e+1<COLS&&board[r][e+1]===v)e++;
+      for(let x=c;x<=e;x++)matched.add(`${r},${x}`);
+    }
+  }
+  for(let c=0;c<COLS;c++)for(let r=0;r<ROWS-2;r++){
+    const v=board[r][c];
+    if(v&&v===board[r+1][c]&&v===board[r+2][c]){
+      let e=r+2;while(e+1<ROWS&&board[e+1][c]===v)e++;
+      for(let y=r;y<=e;y++)matched.add(`${y},${c}`);
+    }
+  }
+  return matched;
+}
+
+async function processMatches(){
+  let matched=findMatches();
+  while(matched.size>0){
+    const pts=matched.size*10*(1+Math.floor(level/5));
+    score+=pts;
+    document.getElementById('score').innerText=score;
+    const pct=Math.min(100,(score/target)*100);
+    document.getElementById('lvlprog').style.width=pct+'%';
+    matched.forEach(k=>{const[r,c]=k.split(',').map(Number);board[r][c]=null;});
+    render();
+    await sleep(300);
+    gravity();
+    render();
+    await sleep(200);
+    refill();
+    render();
+    await sleep(200);
+    matched=findMatches();
+  }
+}
+
+function gravity(){
+  for(let c=0;c<COLS;c++){
+    let empty=ROWS-1;
+    for(let r=ROWS-1;r>=0;r--){
+      if(board[r][c]!==null){board[empty][c]=board[r][c];if(empty!==r)board[r][c]=null;empty--;}
+    }
+  }
+}
+
+function refill(){
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(board[r][c]===null)board[r][c]=randCandy();
+}
+
+function checkEnd(){
+  if(score>=target){
+    showMsg('🎉','Level Complete! +'+(level*100)+' bonus!');
+    score+=level*100;
+    return;
+  }
+  if(moves<=0){
+    if(score>=target){showMsg('🎉','Level Complete!');}
+    else{showMsg('😢','Out of Moves! Try again?');}
+  }
+}
+
+function showMsg(icon,text){
+  document.getElementById('msgIcon').innerText=icon;
+  document.getElementById('msgText').innerText=text;
+  document.getElementById('msg').classList.add('show');
+}
+
+function nextLevel(){
+  document.getElementById('msg').classList.remove('show');
+  level++;initBoard();
+}
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+initBoard();
+</script>
+</body>
+</html>
